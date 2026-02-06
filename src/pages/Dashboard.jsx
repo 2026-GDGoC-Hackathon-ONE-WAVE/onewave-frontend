@@ -211,7 +211,7 @@ export default function Dashboard() {
                     </button>
 
                     <p className="mt-3 text-[11px] text-slate-400 font-medium text-center">
-                      PDF / 이미지 / CSV로 확장 가능
+                      PDF / 이미지 / CSV로 추출
                     </p>
                   </div>
                 </div>

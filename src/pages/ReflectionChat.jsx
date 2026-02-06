@@ -1,9 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   startChatSession,
   sendChatMessage,
   createReflection,
+  getChatHistory,
 } from '../api/endpoints';
 
 const EMOTIONS = [
@@ -26,18 +27,48 @@ function nowTimeLabel() {
 
 export default function ReflectionChat() {
   const navigate = useNavigate();
-  const location = useLocation();
-  // applicationId defaulting to 1 if not provided (mock)
-  const applicationId = location.state?.applicationId || 1;
+
+  const applicationId = 3;
 
   const [selectedEmotion, setSelectedEmotion] = useState(null);
-  const [sessionId, setSessionId] = useState(null);
+  const sessionId = 23;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
   const [isSending, setIsSending] = useState(false);
 
   const listRef = useRef(null);
+
+  React.useEffect(() => {
+    const loadChatHistory = async () => {
+      if (!sessionId) return;
+      try {
+        const res = await getChatHistory(sessionId);
+        if (res.success && Array.isArray(res.data)) {
+          const history = res.data.map((msg) => ({
+            id: msg.messageId,
+            role: msg.senderType === 'USER' ? 'user' : 'ai',
+            text: msg.content,
+            time: new Date(msg.createdAt).toLocaleTimeString('ko-KR', {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+          }));
+
+          if (history.length > 0) {
+            setMessages(history);
+            // 첫 메시지가 유저라면 감정 선택된 것으로 간주 (임시 처리)
+            if (!selectedEmotion && history[0].role === 'user') {
+              setSelectedEmotion({ label: history[0].text });
+            }
+          }
+        }
+      } catch (e) {
+        console.error('대화 내역 불러오기 실패:', e);
+      }
+    };
+    loadChatHistory();
+  }, [sessionId]);
 
   const canSend = useMemo(() => {
     return (
@@ -80,8 +111,10 @@ export default function ReflectionChat() {
     try {
       const res = await startChatSession(applicationId, emotion.label);
       if (res.success) {
-        setSessionId(res.data.sessionId);
-        pushMessage('ai', res.data.firstMessage.content);
+        pushMessage(
+          'ai',
+          res.data?.firstMessage?.content || '회고를 시작합니다.',
+        );
       } else {
         alert('세션 시작 실패: ' + res.message);
         setSelectedEmotion(null); // Reset on failure
@@ -223,15 +256,6 @@ export default function ReflectionChat() {
                   {e.label}
                 </button>
               ))}
-            </div>
-          )}
-
-          {selectedEmotion && (
-            <div className="ml-12">
-              <div className="inline-flex items-center gap-2 rounded-full bg-orange-50 text-orange-700 border border-orange-100 px-3 py-1 text-xs font-semibold">
-                감정 선택 완료{' '}
-                <span className="text-orange-600">{selectedEmotion.label}</span>
-              </div>
             </div>
           )}
         </div>

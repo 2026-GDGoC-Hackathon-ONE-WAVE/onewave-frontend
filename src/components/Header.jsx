@@ -9,7 +9,7 @@ const Header = () => {
 
   const navItems = [
     { label: '홈', path: '/' },
-    { label: '내 경험', path: '/experiences' },
+    { label: '지원 아카이브', path: '/experiences' },
     { label: '대시보드', path: '/dashboard' },
   ];
 

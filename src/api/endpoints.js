@@ -13,7 +13,7 @@ export const startChatSession = async (applicationId, selectedEmotion) => {
 // 2. 메시지 전송
 export const sendChatMessage = async (sessionId, message) => {
   const response = await client.post(
-    `/api/chat/sessions/${sessionId}/messages`,
+    `/api/chat-sessions/${sessionId}/messages`,
     {
       message,
     },
@@ -23,7 +23,7 @@ export const sendChatMessage = async (sessionId, message) => {
 
 // 3. 대화 내역 조회
 export const getChatHistory = async (sessionId) => {
-  const response = await client.get(`/api/chat/sessions/${sessionId}/messages`);
+  const response = await client.get(`/api/chat-sessions/${sessionId}`);
   return response.data;
 };
 
