@@ -473,7 +473,9 @@ const Experiences = () => {
                       {selectedExp.progress === '회고 완료' ? '✨' : '⏳'}
                     </div>
                     <div>
-                      <label className={`block text-[11px] font-bold mb-0.5 ${selectedExp.progress === '회고 완료' ? 'text-indigo-600' : 'text-orange-600'}`}>
+                      <label
+                        className={`block text-[11px] font-bold mb-0.5 ${selectedExp.progress === '회고 완료' ? 'text-indigo-600' : 'text-orange-600'}`}
+                      >
                         상태
                       </label>
                       <span className="text-xl font-black text-gray-900">
@@ -483,10 +485,10 @@ const Experiences = () => {
                   </div>
                   <button
                     onClick={() => navigate('/reflection')}
-                    className={`px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg ${
+                    className={`px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl text-white ${
                       selectedExp.progress === '회고 완료'
-                        ? 'bg-indigo-600 text-white shadow-indigo-200 hover:bg-indigo-700'
-                        : 'bg-orange-500 text-white shadow-orange-200 hover:bg-orange-600'
+                        ? 'bg-gradient-to-r from-indigo-500 to-violet-500 shadow-indigo-200/50'
+                        : 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200/50'
                     }`}
                   >
                     {selectedExp.progress === '회고 완료'
@@ -583,12 +585,12 @@ const ExperienceCard = ({
           <span className="text-sm font-bold text-gray-700">{progress}</span>
         </div>
         <button
-          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg ${
+          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg text-white ${
             progress === '회고 완료'
-              ? 'bg-indigo-600 text-white shadow-indigo-100 hover:bg-indigo-700'
+              ? 'bg-gradient-to-r from-indigo-500 to-violet-500 shadow-indigo-200/50'
               : isStart
-                ? 'bg-orange-500 text-white shadow-orange-100 hover:bg-orange-600'
-                : 'bg-slate-900 text-white shadow-slate-100 hover:bg-black'
+                ? 'bg-gradient-to-r from-rose-500 to-pink-500 shadow-rose-200/50'
+                : 'bg-gradient-to-r from-orange-400 to-amber-500 shadow-orange-200/50'
           }`}
         >
           {progress === '회고 완료'

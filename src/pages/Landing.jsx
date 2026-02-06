@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 �
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowsRotate,
-  faArrowRight,
+  faChevronRight,
   faBrain,
   faChartLine,
   faShieldHeart,
@@ -48,18 +48,18 @@ const Landing = () => {
                   AI와 함께 생각을 정리합니다.
                 </p>
                 <p className="text-[18px] text-gray-400">
-                  나만의 정답을 찾아가는 질문형 회고
-                  서비스 RE:TRACE
+                  나만의 정답을 찾아가는 질문형 회고 서비스 RE:TRACE
                 </p>
               </div>
               <div className="flex items-center gap-4 mt-4">
                 <button
                   onClick={() => navigate('/onboarding')} // 클릭 시 온보딩 페이지로 이동
-                  className="px-10 py-5 bg-[#222222] text-white rounded-2xl text-[20px] font-bold flex items-center gap-3 hover:scale-[1.02] transition-transform shadow-xl shadow-black/20"
+                  className="px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl text-[20px] font-bold flex items-center gap-3 hover:scale-[1.05] transition-all shadow-xl shadow-orange-200/50"
                 >
-                  경험 돌아보기 시작 <FontAwesomeIcon icon={faArrowRight} />
+                  경험 돌아보기{' '}
+                  <FontAwesomeIcon icon={faChevronRight} className="text-lg" />
                 </button>
-              </div>
+              </div>{' '}
             </div>
 
             <div className="w-1/2 relative">
