@@ -28,15 +28,15 @@ const Landing = () => {
           id="hero-section"
           className="relative w-full min-h-[840px] flex items-center bg-[#F9FAFB]"
         >
-          <div className="w-full max-w-[1200px] mx-auto px-6 flex items-center">
+          <div className="w-full max-w-[1200px] mx-auto px-6 flex items-start">
             <div className="w-1/2 flex flex-col gap-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full w-fit shadow-sm">
                 <span className="flex h-2 w-2 rounded-full bg-[#00E676]"></span>
                 <span className="text-[14px] font-bold text-gray-600 uppercase tracking-wider">
-                  New Standard of Career Reflection
+                  Trace your experience. Rewrite your direction.
                 </span>
               </div>
-              <h1 className="text-[72px] font-black leading-[1.1] text-[#222222] tracking-tight">
+              <h1 className="text-[60px] font-black leading-[1.15] text-[#222222] tracking-tight">
                 질문으로
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FB923C] to-[#FDBA74]">
@@ -44,20 +44,23 @@ const Landing = () => {
                 </span>
               </h1>
               <div className="flex flex-col gap-2">
-                <p className="text-[24px] font-medium text-gray-500">
+                <p className="text-[20px] font-medium text-gray-500">
                   AI와 함께 생각을 정리합니다.
                 </p>
-                <p className="text-[18px] text-gray-400">
+                <p className="text-[16px] text-gray-400">
                   나만의 정답을 찾아가는 질문형 회고 서비스 RE:TRACE
                 </p>
               </div>
               <div className="flex items-center gap-4 mt-4">
                 <button
-                  onClick={() => navigate('/onboarding')} // 클릭 시 온보딩 페이지로 이동
-                  className="px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl text-[20px] font-bold flex items-center gap-3 hover:scale-[1.05] transition-all shadow-xl shadow-orange-200/50"
+                  onClick={() => navigate('/onboarding')}
+                  className="px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl text-[18px] font-bold flex items-center gap-3 hover:scale-[1.05] transition-all shadow-xl shadow-orange-200/50"
                 >
-                  경험 돌아보기{' '}
-                  <FontAwesomeIcon icon={faChevronRight} className="text-lg" />
+                  경험 돌아보기
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className="text-base"
+                  />
                 </button>
               </div>{' '}
             </div>
@@ -78,10 +81,11 @@ const Landing = () => {
         <section id="value-proposition" className="w-full py-32 bg-white">
           <div className="w-full max-w-[1200px] mx-auto px-6">
             <div className="flex flex-col items-center text-center gap-6 mb-20">
-              <h2 className="text-[48px] font-black text-[#222222]">
+              <h2 className="text-[40px] font-black text-[#222222]">
                 왜 상담이 아니라 회고인가요?
               </h2>
-              <p className="text-[20px] text-gray-500 max-w-[700px]">
+
+              <p className="text-[18px] text-gray-500 max-w-[700px]">
                 단순히 '왜 떨어졌을까'를 분석하는 것은 답을 주지 못합니다.
                 <br />
                 스스로에게 던지는 깊이 있는 질문만이 다음 성장을 위한 진짜 답을
@@ -184,11 +188,11 @@ const FeatureCard = ({ icon, title, desc }) => {
       <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-[#FB923C] transition-colors">
         <FontAwesomeIcon
           icon={icon}
-          className="text-2xl text-[#FB923C] group-hover:text-white"
+          className="text-xl text-[#FB923C] group-hover:text-white"
         />
       </div>
-      <h3 className="text-[24px] font-bold text-[#222222] mb-4">{title}</h3>
-      <p className="text-[17px] text-gray-500 leading-relaxed">{desc}</p>
+      <h3 className="text-[20px] font-bold text-[#222222] mb-3">{title}</h3>
+      <p className="text-[15px] text-gray-500 leading-relaxed">{desc}</p>
     </div>
   );
 };

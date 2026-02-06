@@ -484,7 +484,7 @@ const Experiences = () => {
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate('/reflection')}
+                    onClick={() => navigate('/reflection', { state: { applicationId: selectedExp.id } })}
                     className={`px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl text-white ${
                       selectedExp.progress === '회고 완료'
                         ? 'bg-gradient-to-r from-indigo-500 to-violet-500 shadow-indigo-200/50'

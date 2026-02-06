@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { getDashboardData } from '../api/endpoints';
+
 function formatMonthLabel(yyyyMm) {
   if (!yyyyMm) return '';
   const [y, m] = yyyyMm.split('-');
@@ -17,56 +19,12 @@ export default function Dashboard() {
       setErrorMsg('');
 
       try {
-        // ✅ 더미 데이터 (실제 API 붙일 때 fetch로 교체)
-        const json = {
-          status: 200,
-          success: true,
-          message: '대시보드 데이터 조회 성공',
-          data: {
-            userId: 1,
-            summary: {
-              totalReflections: 42,
-              thisMonthReflections: 15,
-            },
-            stageFailureRates: [
-              {
-                stage: '최종 면접',
-                failureCount: 28,
-                totalCount: 42,
-                failureRate: 68,
-                description:
-                  '답변 질문에 대한 답이가 부족해 행했던 경험이 있어',
-              },
-              {
-                stage: '코딩 테스트',
-                failureCount: 18,
-                totalCount: 42,
-                failureRate: 42,
-                description: '시간 관리 해내지서 말을 뱉지 않이 말고 말야',
-              },
-              {
-                stage: '서류 전형',
-                failureCount: 8,
-                totalCount: 42,
-                failureRate: 18,
-                description: '지원 적합도 기하드는 비중 당청하게',
-              },
-            ],
-            topKeywords: [
-              { keyword: '성장', count: 12 },
-              { keyword: '몰입', count: 8 },
-              { keyword: '성취', count: 6 },
-            ],
-            monthlyReflectionCount: [
-              { month: '2025-01', count: 8 },
-              { month: '2025-02', count: 15 },
-              { month: '2025-03', count: 19 },
-            ],
-          },
-        };
+        // userId=1 (Temporary hardcoded)
+        const response = await getDashboardData(1);
 
-        if (!json?.success) throw new Error(json?.message || '조회 실패');
-        setRaw(json.data);
+        if (!response?.success)
+          throw new Error(response?.message || '조회 실패');
+        setRaw(response.data);
       } catch (e) {
         setErrorMsg(e?.message || '알 수 없는 오류');
       } finally {

@@ -1,49 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getReflectionDetail } from '../api/endpoints';
 
 export default function ReflectionSummary() {
   const navigate = useNavigate();
+  const { reflectionId } = useParams();
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API fetch
     const fetchData = async () => {
-      // Dummy response matching GET /api/reflections/{reflectionId}
-      const json = {
-        status: 200,
-        success: true,
-        message: '회고 조회 성공',
-        data: {
-          reflectionId: 1,
-          sessionId: 1,
-          applicationId: 1,
-          companyName: '토스',
-          jobTitle: 'Product Designer',
-          selectedEmotion: '당황',
-          userSummary:
-            '오늘은 질문의 의도를 한 번에 파악하지 못해 답변이 길어졌습니다.\n하지만 경험을 다시 정리하면서 어떤 부분을 개선해야 할지 명확해졌습니다.',
-          userImprovement:
-            '답변을 ‘상황-행동-결과’ 구조로 30초 버전부터 연습하기',
-          simpleMemo:
-            '면접 후 바로 정리하지 않아서 기억이 흐릿해졌다.\n다음부터는 면접 끝나고 10분 안에 메모부터 남기자.\n질문 의도를 먼저 말로 정리하는 연습도 필요.',
-          keywords: [
-            { keywordId: 1, keyword: '성장', isSelected: true },
-            { keywordId: 2, keyword: '몰입', isSelected: false },
-            { keywordId: 3, keyword: '커뮤니케이션', isSelected: true },
-            { keywordId: 4, keyword: '정리', isSelected: false },
-            { keywordId: 5, keyword: '회고', isSelected: false },
-          ],
-          createdAt: '2024-02-06T10:05:00',
-        },
-      };
+      if (!reflectionId) {
+        setLoading(false);
+        return;
+      }
 
-      setData(json.data);
+      try {
+        const res = await getReflectionDetail(reflectionId);
+        if (res.success) {
+          setData(res.data);
+        } else {
+          console.error(res.message);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
-  }, []);
+  }, [reflectionId]);
 
-  if (!data) return <div className="min-h-screen bg-[#F3F4F6]" />;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+        <div className="text-slate-500">불러오는 중...</div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+        <div className="text-slate-500">
+          회고 데이터를 찾을 수 없습니다. (ID: {reflectionId})
+        </div>
+      </div>
+    );
+  }
 
   const emotionLabel = data.selectedEmotion;
   // Map emotion label to emoji/desc (Client-side mapping or could be in API)
@@ -135,7 +140,7 @@ export default function ReflectionSummary() {
                     오늘의 키워드
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {data.keywords.map((k) => {
+                    {data.keywords?.map((k) => {
                       return (
                         <span
                           key={k.keywordId}
@@ -189,7 +194,7 @@ export default function ReflectionSummary() {
 
                   <div className="bg-orange-50/40 border-orange-100/60 rounded-3xl p-7 shadow-sm">
                     <p className="text-[15px] font-medium text-gray-800 leading-relaxed whitespace-pre-line">
-                      {data.simpleMemo}
+                      {data.simpleMemo || '메모가 없습니다.'}
                     </p>
                   </div>
                 </div>

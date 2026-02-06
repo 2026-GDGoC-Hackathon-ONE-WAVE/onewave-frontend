@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import profileImg from '.././assets/profile.png';
 const Header = () => {
   const navigate = useNavigate();
@@ -32,12 +32,12 @@ const Header = () => {
           className="flex items-center gap-2 cursor-pointer"
           onClick={handleLogoClick}
         >
-          <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
+          {/* <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
             <FontAwesomeIcon
               icon={faArrowsRotate}
               className="text-white text-xl"
             />
-          </div>
+          </div> */}
           <span className="text-2xl font-black tracking-tighter text-[#222222]">
             RE:TRACE
           </span>
