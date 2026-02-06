@@ -37,19 +37,19 @@ const Landing = () => {
                 </span>
               </div>
               <h1 className="text-[72px] font-black leading-[1.1] text-[#222222] tracking-tight">
-                탈락을 질문으로
+                질문으로
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#A855F7]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FB923C] to-[#FDBA74]">
                   돌아보는 취업 회고
                 </span>
               </h1>
               <div className="flex flex-col gap-2">
                 <p className="text-[24px] font-medium text-gray-500">
-                  답을 주지 않고, 생각을 정리합니다.
+                  AI와 함께 생각을 정리합니다.
                 </p>
                 <p className="text-[18px] text-gray-400">
-                  단순한 피드백이 아닌, 나만의 정답을 찾아가는 질문형 회고 서비스
-                  RE:TRACE
+                  나만의 정답을 찾아가는 질문형 회고
+                  서비스 RE:TRACE
                 </p>
               </div>
               <div className="flex items-center gap-4 mt-4">
@@ -92,12 +92,12 @@ const Landing = () => {
               <FeatureCard
                 icon={faBrain}
                 title="구조화된 질문 시스템"
-                desc="단순한 일기가 아닙니다. 전문 심리학과 인사이트를 바탕으로 설계된 질문 트리가 당신의 생각을 깊게 파고듭니다."
+                desc="단순한 회고가 아닙니다. 인사이트를 바탕으로 설계된 질문 트리가 당신의 생각을 깊게 파고듭니다."
               />
               <FeatureCard
                 icon={faChartLine}
                 title="경험의 데이터화"
-                desc="휘발되는 감정을 기록하고, 반복되는 패턴을 발견하여 나만의 강점 키워드로 변환해 드립니다."
+                desc="휘발되는 감정을 기록하고, 반복되는 패턴을 발견하여 나만의 키워드로 변환해 드립니다."
               />
               <FeatureCard
                 icon={faShieldHeart}
@@ -109,10 +109,7 @@ const Landing = () => {
         </section>
 
         {/* --- Footer --- */}
-        <footer
-          id="footer"
-          className="w-full py-16 bg-[#111111] text-white"
-        >
+        <footer id="footer" className="w-full py-16 bg-[#111111] text-white">
           <div className="w-full max-w-[1200px] mx-auto px-6">
             <div className="flex justify-between items-start border-b border-white/10 pb-12">
               <div className="flex flex-col gap-6">
@@ -150,7 +147,9 @@ const Landing = () => {
                   </a>
                 </div>
                 <div className="flex flex-col gap-4">
-                  <span className="font-bold text-white text-[16px]">Social</span>
+                  <span className="font-bold text-white text-[16px]">
+                    Social
+                  </span>
                   <div className="flex gap-4">
                     <FontAwesomeIcon
                       icon={faInstagram}
@@ -181,11 +180,11 @@ const Landing = () => {
 // --- 서브 컴포넌트: 특장점 카드 ---
 const FeatureCard = ({ icon, title, desc }) => {
   return (
-    <div className="p-10 bg-[#F9FAFB] rounded-[32px] border border-transparent hover:border-[#6366F1] transition-all group">
-      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-[#6366F1] transition-colors">
+    <div className="p-10 bg-[#F9FAFB] rounded-[32px] border border-transparent hover:border-[#FB923C] transition-all group">
+      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-[#FB923C] transition-colors">
         <FontAwesomeIcon
           icon={icon}
-          className="text-2xl text-[#6366F1] group-hover:text-white"
+          className="text-2xl text-[#FB923C] group-hover:text-white"
         />
       </div>
       <h3 className="text-[24px] font-bold text-[#222222] mb-4">{title}</h3>
