@@ -1,22 +1,32 @@
 import React from 'react';
-import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Onboarding from './pages/Onboarding';
+import Experiences from './pages/Experiences';
+import ExperienceDetail from './pages/ExperienceDetail';
+import ServiceGuide from './pages/ServiceGuide';
+import Dashboard from './pages/Dashboard.jsx';
 import ReflectionChat from './pages/ReflectionChat.jsx';
 import ReflectionSummary from './pages/ReflectionSummary.jsx';
-import Dashboard from './pages/Dashboard.jsx';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/reflection" element={<ReflectionChat />} />
-      <Route path="/reflection/summary" element={<ReflectionSummary />} />
-      <Route
-        path="/reflection/summary/:reflectionId"
-        element={<ReflectionSummary />}
-      />
-    </Routes>
+    <div className="App font-['Pretendard']">
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/service-guide" element={<ServiceGuide />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/experiences" element={<Experiences />} />
+        <Route path="/experience-detail" element={<ExperienceDetail />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/reflection" element={<ReflectionChat />} />
+        <Route path="/reflection/summary" element={<ReflectionSummary />} />
+        <Route
+          path="/reflection/summary/:reflectionId"
+          element={<ReflectionSummary />}
+        />
+      </Routes>
+    </div>
   );
 }
 
