@@ -63,30 +63,24 @@ export default function Dashboard() {
   }, [monthly]);
 
   return (
-    <div className="min-h-screen w-full bg-[#F4F7FF] font-['Pretendard']">
-      {/* Header */}
-      <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="mx-auto max-w-[1200px] px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-tr from-[#8B5CF6] to-[#EC4899] rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <i className="fa-solid fa-bolt-lightning text-white text-xl" />
-            </div>
-            <div>
-              <h1 className="text-xl font-black text-[#0F172A]">
-                패턴 인사이트 대시보드
-              </h1>
-              <p className="text-slate-500 text-sm font-medium">
-                회고 데이터를 기반으로 반복되는 패턴을 확인하세요.
-              </p>
-            </div>
+    <div className="min-h-screen w-full bg-[#F4F7FF] font-['Pretendard'] pb-20">
+      {/* Title Section */}
+      <section className="bg-white border-b border-slate-100">
+        <div className="mx-auto max-w-[1200px] px-6 py-10 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">
+              패턴 인사이트 대시보드
+            </h1>
+            <p className="text-slate-500 mt-2 font-medium">
+              회고 데이터를 기반으로 반복되는 나의 패턴을 확인하세요.
+            </p>
           </div>
-
-          <button className="bg-[#0F172A] text-white px-5 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-black transition-all">
+          <button className="bg-[#0F172A] text-white px-6 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-black transition-all shadow-lg shadow-black/10">
             <i className="fa-solid fa-download" />
             리포트 추출
           </button>
         </div>
-      </header>
+      </section>
 
       <main className="px-6 py-10">
         <div className="mx-auto max-w-[1200px] space-y-8">

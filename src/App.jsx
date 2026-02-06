@@ -8,10 +8,12 @@ import ServiceGuide from './pages/ServiceGuide';
 import Dashboard from './pages/Dashboard.jsx';
 import ReflectionChat from './pages/ReflectionChat.jsx';
 import ReflectionSummary from './pages/ReflectionSummary.jsx';
+import Header from './components/Header';
 
 function App() {
   return (
     <div className="App font-['Pretendard']">
+      <Header />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/service-guide" element={<ServiceGuide />} />

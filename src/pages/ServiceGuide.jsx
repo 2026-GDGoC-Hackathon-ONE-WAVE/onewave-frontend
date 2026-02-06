@@ -1,13 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faArrowsRotate, 
-  faChevronLeft,
+import {
   faPlus,
   faComments,
   faFileLines,
-  faCircleCheck
+  faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 const ServiceGuide = () => {
@@ -16,60 +14,46 @@ const ServiceGuide = () => {
   return (
     <div className="ui-screen bg-[#F9FAFB]">
       <div id="app" className="relative w-full min-h-screen overflow-x-hidden">
-        
-        {/* --- Navigation --- */}
-        <nav className="sticky top-0 z-50 w-full h-[80px] bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-20">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon icon={faArrowsRotate} className="text-white text-xl" />
-            </div>
-            <span className="text-2xl font-black tracking-tighter text-[#222222]">RE:TRACE</span>
-          </div>
-          <button 
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-gray-500 font-bold hover:text-[#222222] transition-colors"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-            메인으로 돌아가기
-          </button>
-        </nav>
-
         {/* --- Header Section --- */}
         <header className="w-full pt-24 pb-16 px-20 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full mb-6">
-            <span className="text-[14px] font-bold text-[#6366F1]">HOW TO USE</span>
+            <span className="text-[14px] font-bold text-[#6366F1]">
+              HOW TO USE
+            </span>
           </div>
           <h1 className="text-[56px] font-black text-[#222222] leading-tight mb-6">
-            당신의 경험이 자산이 되도록,<br/>
+            당신의 경험이 자산이 되도록,
+            <br />
             <span className="text-[#6366F1]">회고 가이드</span>
           </h1>
           <p className="text-[20px] text-gray-500 max-w-[700px] mx-auto">
-            단순한 기록을 넘어 성장의 발판이 되는 RE:TRACE의<br/> 4단계 회고 프로세스를 소개합니다.
+            단순한 기록을 넘어 성장의 발판이 되는 RE:TRACE의
+            <br /> 4단계 회고 프로세스를 소개합니다.
           </p>
         </header>
 
         {/* --- Step Section --- */}
         <section className="px-20 pb-32">
           <div className="grid grid-cols-1 gap-12 max-w-[1000px] mx-auto">
-            <StepItem 
+            <StepItem
               num="01"
               icon={faPlus}
               title="탈락 경험 등록"
               desc="준비했던 공고명과 직무를 입력하세요. 아직 정리되지 않은 감정들을 마주하는 첫 걸음입니다."
             />
-            <StepItem 
+            <StepItem
               num="02"
               icon={faComments}
               title="AI와 함께하는 1:1 회고 채팅"
               desc="AI가 당신의 답변을 바탕으로 꼬리 질문을 던집니다. 구체적인 상황을 떠올리며 스스로 정답을 찾아보세요."
             />
-            <StepItem 
+            <StepItem
               num="03"
               icon={faFileLines}
               title="데이터 기반 강점 리포트"
               desc="채팅 내용을 분석하여 당신의 강점 키워드와 개선 포인트를 도출해 드립니다. 휘발되는 경험을 데이터로 만드세요."
             />
-            <StepItem 
+            <StepItem
               num="04"
               icon={faCircleCheck}
               title="다음 도전을 위한 로드맵"
@@ -80,15 +64,16 @@ const ServiceGuide = () => {
 
         {/* --- Bottom CTA --- */}
         <section className="bg-[#222222] py-24 px-20 text-center">
-          <h2 className="text-[40px] font-black text-white mb-8">준비되셨나요? 당신의 서사를 시작하세요.</h2>
-          <button 
+          <h2 className="text-[40px] font-black text-white mb-8">
+            준비되셨나요? 당신의 서사를 시작하세요.
+          </h2>
+          <button
             onClick={() => navigate('/onboarding')}
             className="px-12 py-6 bg-white text-[#222222] rounded-2xl text-[20px] font-bold hover:bg-gray-100 transition-all shadow-xl shadow-black/20"
           >
             지금 바로 회고 시작하기
           </button>
         </section>
-
       </div>
     </div>
   );

@@ -23,35 +23,6 @@ const Landing = () => {
         id="app"
         className="relative w-full min-h-screen bg-white overflow-x-hidden"
       >
-        {/* --- Navigation --- */}
-        <nav
-          id="header"
-          className="sticky top-0 z-50 w-full h-[80px] bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-20"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon
-                icon={faArrowsRotate}
-                className="text-white text-xl"
-              />
-            </div>
-            <span className="text-2xl font-black tracking-tighter text-[#222222]">
-              RE:TRACE
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="px-6 py-2.5 text-[15px] font-bold text-gray-600 hover:text-[#222222]">
-              로그인
-            </button>
-            <button
-              onClick={() => navigate('/onboarding')}
-              className="px-8 py-3 bg-[#222222] text-white rounded-full text-[15px] font-bold hover:bg-black transition-all shadow-lg shadow-black/10"
-            >
-              무료로 시작하기
-            </button>
-          </div>
-        </nav>
-
         {/* --- Hero Section --- */}
         <main
           id="hero-section"

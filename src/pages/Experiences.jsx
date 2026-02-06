@@ -104,25 +104,6 @@ const Experiences = () => {
     <div className="ui-screen bg-[#F8F9FD]">
       <div id="app" className="relative w-full min-h-screen font-['Pretendard'] overflow-x-hidden pb-32">
         
-        {/* --- Header --- */}
-        <header className="sticky top-0 z-50 w-full h-[80px] bg-white/80 backdrop-blur-md border-b border-gray-100 px-10 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
-            <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon icon={faArrowsRotate} className="text-white text-xl" />
-            </div>
-            <span className="text-2xl font-black tracking-tighter text-[#222222]">RE:TRACE</span>
-          </div>
-          <nav className="flex items-center gap-8 font-bold text-gray-500 text-left">
-            <button className="text-gray-900">내 경험</button>
-            <button className="hover:text-indigo-600 transition-colors">인사이트</button>
-            <button className="hover:text-indigo-600 transition-colors">커뮤니티</button>
-            <div className="flex items-center gap-3 ml-4">
-              <img src="https://vinsign.app/resources/avatars/avatar-5.png" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="User" />
-              <span className="text-gray-700 font-semibold text-sm">김지우 님</span>
-            </div>
-          </nav>
-        </header>
-
         <main className="px-10 py-12">
           {/* --- Hero CTA Section --- */}
           <section className="relative w-full h-[240px] bg-gradient-to-br from-[#1E1B4B] to-[#312E81] rounded-[32px] mb-12 overflow-hidden flex items-center justify-between px-16 shadow-2xl">
