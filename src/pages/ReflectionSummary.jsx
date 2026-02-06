@@ -23,24 +23,18 @@ export default function ReflectionSummary() {
   return (
     <div className="min-h-screen bg-[#F3F4F6]">
       {/* Header */}
-      <header className="h-20 px-10 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-10 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#6366F1] to-[#A855F7] rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
-            <i className="fa-solid fa-sparkles text-white text-xl" />
+      <header className="h-[80px] px-6 md:px-20 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => navigate('/')}
+        >
+          <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
+            <i className="fa-solid fa-arrows-rotate text-white text-xl" />
           </div>
-          <span className="text-xl font-black tracking-tight text-gray-900">
-            RE:MIND
+          <span className="text-2xl font-black tracking-tighter text-[#222222]">
+            RE:TRACE
           </span>
         </div>
-
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="text-gray-400 hover:text-gray-600 transition"
-          aria-label="닫기"
-        >
-          <i className="fa-solid fa-xmark text-xl" />
-        </button>
       </header>
 
       {/* Main */}
