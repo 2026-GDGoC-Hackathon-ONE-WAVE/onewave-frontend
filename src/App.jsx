@@ -1,12 +1,14 @@
+import React from 'react';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import ReflectionChat from './pages/ReflectionChat.jsx';
 
 function App() {
   return (
-    <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more 안녕하세요
-      </p>
-    </>
+    <Routes>
+      <Route path="/" element={<div>Home</div>} />
+      <Route path="/reflection" element={<ReflectionChat />} />
+    </Routes>
   );
 }
 
