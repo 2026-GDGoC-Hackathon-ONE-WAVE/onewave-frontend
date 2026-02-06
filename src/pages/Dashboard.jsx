@@ -17,6 +17,7 @@ export default function Dashboard() {
       setErrorMsg('');
 
       try {
+        // ✅ 더미 데이터 (실제 API 붙일 때 fetch로 교체)
         const json = {
           status: 200,
           success: true,
@@ -80,10 +81,11 @@ export default function Dashboard() {
   const total = summary?.totalReflections ?? 0;
   const thisMonth = summary?.thisMonthReflections ?? 0;
 
-  // Get sorted failure rates
   const stageFailureRates = useMemo(() => {
     if (!raw?.stageFailureRates) return [];
-    return [...raw.stageFailureRates].sort((a, b) => b.failureRate - a.failureRate);
+    return [...raw.stageFailureRates].sort(
+      (a, b) => b.failureRate - a.failureRate,
+    );
   }, [raw]);
 
   const topKeywords = raw?.topKeywords || [];
@@ -96,24 +98,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen w-full bg-[#F4F7FF] font-['Pretendard'] pb-20">
-      {/* Title Section */}
-      <section className="bg-white border-b border-slate-100">
-        <div className="mx-auto max-w-[1200px] px-6 py-10 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">
-              패턴 인사이트 대시보드
-            </h1>
-            <p className="text-slate-500 mt-2 font-medium">
-              회고 데이터를 기반으로 반복되는 나의 패턴을 확인하세요.
-            </p>
-          </div>
-          <button className="bg-[#0F172A] text-white px-6 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-black transition-all shadow-lg shadow-black/10">
-            <i className="fa-solid fa-download" />
-            리포트 추출
-          </button>
-        </div>
-      </section>
-
       <main className="px-6 py-10">
         <div className="mx-auto max-w-[1200px] space-y-8">
           {/* Loading / Error */}
@@ -139,92 +123,136 @@ export default function Dashboard() {
 
           {!isLoading && !errorMsg && raw && (
             <>
-              {/* Summary cards */}
-              <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Total */}
-                <div className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400 font-bold text-sm uppercase tracking-widest">
-                      누적 회고
+              {/* ✅ Top Summary Row (3 cards) */}
+              <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* 1) KPI summary card (누적/이번달 묶음) */}
+                <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm p-6">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-slate-600 font-bold text-xl uppercase tracking-widest">
+                      회고 요약
                     </span>
-                    <div className="w-10 h-10 rounded-2xl bg-purple-50 flex items-center justify-center">
-                      <i className="fa-solid fa-layer-group text-purple-500" />
+                    <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center">
+                      <i className="fa-solid fa-gauge-high text-slate-500" />
                     </div>
                   </div>
-                  <div className="mt-4 flex items-end gap-2">
-                    <span className="text-4xl font-black text-[#0F172A]">
-                      {total}
-                    </span>
-                    <span className="text-lg font-bold text-slate-500">건</span>
-                  </div>
-                  <p className="mt-2 text-sm text-slate-500 font-medium">
-                    지금까지 기록한 회고의 총합이에요.
-                  </p>
-                </div>
 
-                {/* This month */}
-                <div className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400 font-bold text-sm uppercase tracking-widest">
-                      이번 달 회고
-                    </span>
-                    <div className="w-10 h-10 rounded-2xl bg-emerald-50 flex items-center justify-center">
-                      <i className="fa-solid fa-calendar-check text-emerald-500" />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-slate-50 border border-slate-100 rounded-3xl p-5">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        누적 회고
+                      </p>
+                      <div className="mt-2 flex items-baseline gap-2">
+                        <span className="text-3xl font-black text-[#0F172A]">
+                          {total}
+                        </span>
+                        <span className="text-sm font-bold text-slate-500">
+                          건
+                        </span>
+                      </div>
+                      <p className="mt-2 text-[11px] text-slate-400 font-medium line-clamp-1">
+                        지금까지 기록한 회고 수
+                      </p>
+                    </div>
+
+                    <div className="bg-slate-50 border border-slate-100 rounded-3xl p-5">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        이번 달
+                      </p>
+                      <div className="mt-2 flex items-baseline gap-2">
+                        <span className="text-3xl font-black text-[#0F172A]">
+                          {thisMonth}
+                        </span>
+                        <span className="text-sm font-bold text-slate-500">
+                          건
+                        </span>
+                      </div>
+                      <p className="mt-2 text-[11px] text-slate-400 font-medium line-clamp-1">
+                        이번 달에 작성한 회고 수
+                      </p>
                     </div>
                   </div>
-                  <div className="mt-4 flex items-end gap-2">
-                    <span className="text-4xl font-black text-[#0F172A]">
-                      {thisMonth}
-                    </span>
-                    <span className="text-lg font-bold text-slate-500">건</span>
-                  </div>
-                  <p className="mt-2 text-sm text-slate-500 font-medium">
-                    이번 달에 작성한 회고 수예요.
-                  </p>
                 </div>
 
-                {/* Stage Failure Rates */}
-                <div className="bg-[#0F172A] p-6 rounded-[32px] shadow-xl text-white relative overflow-hidden">
-                  <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-[2px]" />
+                {/* 2) Stage Failure Rates (기존 다크 카드) */}
+                <div className="bg-white p-6 rounded-[32px] relative overflow-hidden">
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-6">
-                      <span className="text-slate-300 font-bold text-sm uppercase tracking-widest">
+                      <span className="text-slate-600 font-bold text-xl uppercase tracking-widest">
                         자주 흔들린 전형 단계
                       </span>
-                      <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center">
-                        <i className="fa-solid fa-chart-line text-pink-400 text-sm" />
+                      <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <i className="fa-solid fa-chart-line text-pink-500 text-sm" />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-5">
                       {stageFailureRates.map((s, idx) => {
                         const colors = [
                           'bg-gradient-to-r from-rose-500 to-pink-500',
                           'bg-gradient-to-r from-orange-400 to-amber-500',
                           'bg-gradient-to-r from-indigo-400 to-violet-500',
-                          'bg-gradient-to-r from-emerald-400 to-teal-500'
+                          'bg-gradient-to-r from-emerald-400 to-teal-500',
                         ];
                         const barColor = colors[idx % colors.length];
 
                         return (
                           <div key={s.stage} className="space-y-2">
                             <div className="flex justify-between items-end">
-                              <span className="text-sm font-bold text-slate-200">{s.stage}</span>
-                              <span className="text-lg font-black text-white">{s.failureRate}%</span>
+                              <span className="text-sm font-bold text-slate-700">
+                                {s.stage}
+                              </span>
+                              <span className="text-lg font-black text-slate-900">
+                                {s.failureRate}%
+                              </span>
                             </div>
-                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                              <div 
-                                className={`h-full ${barColor} transition-all duration-1000`} 
+
+                            <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${barColor} transition-all duration-1000`}
                                 style={{ width: `${s.failureRate}%` }}
                               />
                             </div>
+
+                            {!!s.description && (
+                              <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-1">
+                                {s.description}
+                              </p>
+                            )}
                           </div>
                         );
                       })}
                     </div>
-                    
-                    <p className="mt-6 text-xs text-slate-400 font-medium leading-relaxed">
+
+                    <p className="mt-6 text-xs text-slate-500 font-medium leading-relaxed">
                       상위 단계일수록 더 많은 주의와 회고가 필요해요.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 3) ✅ Dashboard Header Box (오른쪽 박스) */}
+                <div className=" shadow-xl bg-[#0F172A] p-6 rounded-[32px] shadow-xl text-white relative overflow-hidden">
+                  <div className="absolute -right-16 -top-16 w-44 h-44 bg-white/10 rounded-full blur-2xl" />
+                  <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                      <h2 className="text-2xl font-black tracking-tight">
+                        패턴 인사이트
+                        <br />
+                        대시보드
+                      </h2>
+                      <p className="mt-3 text-sm text-slate-300 leading-relaxed font-medium">
+                        회고 데이터를 기반으로
+                        <br />
+                        반복되는 나의 패턴을 확인하세요.
+                      </p>
+                    </div>
+
+                    <button className="mt-6 w-full bg-white text-[#0F172A] py-3 rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-slate-100 transition-all">
+                      <i className="fa-solid fa-download" />
+                      리포트 추출
+                    </button>
+
+                    <p className="mt-3 text-[11px] text-slate-400 font-medium text-center">
+                      PDF / 이미지 / CSV로 확장 가능
                     </p>
                   </div>
                 </div>
@@ -235,7 +263,7 @@ export default function Dashboard() {
                 {/* Monthly chart */}
                 <div className="lg:col-span-8 bg-white p-8 rounded-[40px] shadow-sm border border-slate-100">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-black text-[#0F172A]">
+                    <h3 className="text-slate-600 font-bold text-xl uppercase tracking-widest">
                       월별 회고 작성 수
                     </h3>
                     <div className="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-full">
@@ -283,7 +311,7 @@ export default function Dashboard() {
                 {/* Top keywords */}
                 <div className="lg:col-span-4 bg-white p-8 rounded-[40px] shadow-sm border border-slate-100">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-black text-[#0F172A]">
+                    <h3 className="text-slate-600 font-bold text-xl uppercase tracking-widest">
                       Top 키워드
                     </h3>
                     <div className="w-10 h-10 bg-indigo-50 rounded-2xl flex items-center justify-center">
@@ -333,7 +361,7 @@ export default function Dashboard() {
                               />
                             </div>
 
-                            <p className="mt-2 text-[11px] text-slate-500 font-medium">
+                            <p className="mt-2 text-[11px] text-slate-500 font-medium line-clamp-1">
                               {isTop
                                 ? '가장 자주 반복된 키워드예요.'
                                 : '최근 회고에서 자주 등장했어요.'}

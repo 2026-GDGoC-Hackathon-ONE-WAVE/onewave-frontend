@@ -175,20 +175,6 @@ const Experiences = () => {
           </div>
         </main>
 
-        {/* --- 하단 네비게이션 --- */}
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-xl border border-gray-100 px-8 py-4 rounded-full shadow-2xl flex items-center gap-10 z-40">
-          <NavBtn icon={faHouseChimney} label="홈" active />
-          <NavBtn icon={faLayerGroup} label="경험함" />
-          <div
-            onClick={() => setIsModalOpen(true)}
-            className="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center text-white shadow-lg -mt-2 hover:scale-110 transition-transform cursor-pointer"
-          >
-            <FontAwesomeIcon icon={faPlus} className="text-xl" />
-          </div>
-          <NavBtn icon={faChartPie} label="통계" />
-          <NavBtn icon={faUser} label="마이" />
-        </div>
-
         {/* --- 새 경험 추가 모달 --- */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
