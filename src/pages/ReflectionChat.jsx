@@ -1,12 +1,13 @@
 import React, { useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const EMOTIONS = [
-  { key: 'calm', label: '😐 담담해요' },
-  { key: 'sad', label: '😞 아쉬워요' },
-  { key: 'tired', label: '😮‍💨 피곤해요' },
-  { key: 'angry', label: '😤 짜증나요' },
-  { key: 'happy', label: '😊 괜찮아요' },
-  { key: 'excited', label: '✨ 설레요' },
+  { key: 'confused', label: '😵‍💫 당황' },
+  { key: 'sad', label: '😞 아쉬움' },
+  { key: 'tired', label: '😮‍💨 피곤' },
+  { key: 'calm', label: '😐 담담' },
+  { key: 'angry', label: '😤 답답' },
+  { key: 'hope', label: '✨ 그래도 해볼만' },
 ];
 
 function nowTimeLabel() {
@@ -19,25 +20,24 @@ function nowTimeLabel() {
 }
 
 export default function ReflectionChat() {
-  const [selectedEmotion, setSelectedEmotion] = useState(null); 
+  const navigate = useNavigate();
+  const [selectedEmotion, setSelectedEmotion] = useState(null);
+  const [sessionId] = useState(1); // UI용 더미
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [isSending, setIsSending] = useState(false);
 
-  const [messages, setMessages] = useState(() => [
-    {
-      id: 'ai-1',
-      role: 'ai',
-      text: '안녕하세요! 회고를 시작해볼까요?\n먼저 지금 기분을 한 단어로 골라주세요.',
-      time: nowTimeLabel(),
-    },
-  ]);
+  const [isSending, setIsSending] = useState(false);
 
   const listRef = useRef(null);
 
-  const canSend = useMemo(
-    () => input.trim().length > 0 && !isSending,
-    [input, isSending],
-  );
+  const canSend = useMemo(() => {
+    return !!selectedEmotion && input.trim().length > 0 && !isSending;
+  }, [selectedEmotion, input, isSending]);
+
+  const canFinish = useMemo(() => {
+    // UI만: 감정 선택만 해도 활성화되게
+    return !!selectedEmotion && !isSending;
+  }, [selectedEmotion, isSending]);
 
   const scrollToBottom = () => {
     const el = listRef.current;
@@ -45,46 +45,46 @@ export default function ReflectionChat() {
     el.scrollTop = el.scrollHeight;
   };
 
-  const pushMessage = (role, text) => {
+  const pushMessage = (role, text, time) => {
     setMessages((prev) => [
       ...prev,
       {
         id: `${role}-${Date.now()}-${Math.random()}`,
         role,
         text,
-        time: nowTimeLabel(),
+        time: time || nowTimeLabel(),
       },
     ]);
     queueMicrotask(scrollToBottom);
   };
 
-  async function sendToAI(userText) {
-    await new Promise((r) => setTimeout(r, 700));
-    return `좋아요. "${userText}"에서 가장 기억에 남는 장면은 뭐였나요?\n(짧게 한 문장으로 적어도 괜찮아요)`;
-  }
-
   const handleSelectEmotion = (emotion) => {
     if (selectedEmotion) return;
-    setSelectedEmotion(emotion);
 
+    setSelectedEmotion(emotion);
     pushMessage('user', emotion.label);
+
+    // UI 전용: 세션 시작 후 첫 질문처럼 보이게
     pushMessage(
       'ai',
-      '좋아요. 그 기분이 들게 만든 상황을 떠올려볼까요?\n오늘 가장 기억에 남는 순간을 한 문장으로 적어주세요.',
+      '좋아요. 회고를 시작해볼까요?\n이번 경험에서 가장 신경 쓴 부분은 무엇이었나요?',
     );
   };
 
-  const handleSend = async () => {
+  const sendMessage = async () => {
     if (!canSend) return;
 
     const userText = input.trim();
     setInput('');
+
+    // UI: 사용자 메시지 추가
     pushMessage('user', userText);
 
+    // UI: AI 타이핑 느낌
     setIsSending(true);
     try {
-      const reply = await sendToAI(userText);
-      pushMessage('ai', reply);
+      await new Promise((r) => setTimeout(r, 600));
+      pushMessage('ai', '좋습니다. 구체적으로 어떤 부분을 강조하셨나요?');
     } finally {
       setIsSending(false);
     }
@@ -93,7 +93,7 @@ export default function ReflectionChat() {
   const onKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      sendMessage();
     }
   };
 
@@ -106,10 +106,9 @@ export default function ReflectionChat() {
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <h1 className="text-base font-bold text-gray-900">회고 대화</h1>
           </div>
-          <div className="text-xs text-gray-500">
-            {selectedEmotion
-              ? `감정: ${selectedEmotion.label}`
-              : '감정 선택 전'}
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">Session #{sessionId}</span>
           </div>
         </div>
       </header>
@@ -118,14 +117,23 @@ export default function ReflectionChat() {
       <main className="mx-auto max-w-3xl px-4">
         <div
           ref={listRef}
-          className="mt-6 mb-28 flex flex-col gap-6 overflow-auto"
-          style={{ maxHeight: 'calc(100vh - 64px - 120px)' }}
+          className="mt-6 mb-36 flex flex-col gap-6 overflow-auto"
+          style={{ maxHeight: 'calc(100vh - 64px - 160px)' }}
         >
+          {/* 첫 안내 메시지 */}
+          {messages.length === 0 && (
+            <ChatBubble
+              role="ai"
+              text="안녕하세요! 회고를 시작해볼까요?\n먼저 지금 기분을 골라주세요."
+              time={nowTimeLabel()}
+            />
+          )}
+
           {messages.map((m) => (
             <ChatBubble key={m.id} role={m.role} text={m.text} time={m.time} />
           ))}
 
-          {/* Emotion buttons block */}
+          {/* Emotion buttons */}
           {!selectedEmotion && (
             <div className="ml-12 flex flex-wrap gap-2">
               {EMOTIONS.map((e) => (
@@ -144,7 +152,7 @@ export default function ReflectionChat() {
           {selectedEmotion && (
             <div className="ml-12">
               <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1 text-xs font-semibold">
-                감정 선택 완료
+                감정 선택 완료{' '}
                 <span className="text-indigo-600">{selectedEmotion.label}</span>
               </div>
             </div>
@@ -152,9 +160,20 @@ export default function ReflectionChat() {
         </div>
       </main>
 
-      {/* Input */}
+      {/* Bottom actions */}
       <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-gray-100 to-transparent">
-        <div className="mx-auto max-w-3xl px-4 pb-6 pt-3">
+        <div className="mx-auto max-w-3xl px-4 pb-6 pt-3 space-y-2">
+          {/* Finish button (UI only) */}
+          <button
+            type="button"
+            disabled={!canFinish}
+            onClick={() => navigate('/reflection/summary')}
+            className="w-full h-11 rounded-xl bg-white border border-gray-200 text-gray-800 font-bold hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            회고 마치고 요약 보기
+          </button>
+
+          {/* Input */}
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-2 flex items-end gap-2">
             <textarea
               value={input}
@@ -163,25 +182,24 @@ export default function ReflectionChat() {
               rows={1}
               placeholder={
                 selectedEmotion
-                  ? '솔직한 생각을 적어보세요… (Enter 전송, Shift+Enter 줄바꿈)'
-                  : '먼저 감정을 선택해주세요…'
+                  ? '답변을 입력하세요… (Enter 전송, Shift+Enter 줄바꿈)'
+                  : '먼저 감정을 선택하세요…'
               }
               disabled={!selectedEmotion || isSending}
               className="flex-1 resize-none rounded-xl px-3 py-2 outline-none text-sm text-gray-800 placeholder:text-gray-400 disabled:bg-gray-50"
             />
             <button
               type="button"
-              onClick={handleSend}
-              disabled={!selectedEmotion || !canSend}
+              onClick={sendMessage}
+              disabled={!canSend}
               className="shrink-0 h-10 px-4 rounded-xl bg-indigo-600 text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-700 transition"
             >
               {isSending ? '전송중…' : '전송'}
             </button>
           </div>
 
-          <p className="mt-2 text-[11px] text-gray-500">
-            ※ 이 화면은 UI 데모용입니다. 실제 AI 연동은 <code>sendToAI()</code>{' '}
-            함수에 fetch를 붙이면 됩니다.
+          <p className="text-[11px] text-gray-500">
+            * 현재는 UI 데모입니다. (API 연동 없이 화면 흐름만 확인)
           </p>
         </div>
       </div>
@@ -191,10 +209,8 @@ export default function ReflectionChat() {
 
 function ChatBubble({ role, text, time }) {
   const isUser = role === 'user';
-
   return (
     <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
-      {/* avatar */}
       <div
         className={[
           'w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-sm',
