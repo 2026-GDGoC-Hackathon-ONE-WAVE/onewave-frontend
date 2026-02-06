@@ -2,63 +2,45 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faArrowsRotate, 
-  faBell, 
-  faChevronRight, 
-  faBriefcase, 
-  faCircleCheck, 
-  faRotateLeft, 
-  faPenToSquare, 
-  faTrashCan, 
-  faShareNodes, 
-  faPlus 
+  faArrowsRotate, faBell, faChevronRight, faBriefcase, 
+  faCircleCheck, faRotateLeft, faPenToSquare, faTrashCan, 
+  faShareNodes, faPlus, faQuoteLeft, faBolt 
 } from '@fortawesome/free-solid-svg-icons';
 
 const ExperienceDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  /**
-   * 1. Experiences 페이지에서 넘어온 데이터를 안전하게 받아옵니다.
-   * navigate('/experience-detail', { state: { ... } }) 로 보낸 정보가 location.state에 담깁니다.
-   */
   const expData = location.state;
 
-  // 데이터가 없을 경우를 대비한 기본값 설정 (새로고침 시 등)
-  const displayData = expData || {
-    company: "정보 없음",
-    tag: "직무 미지정",
-    date: "2025-00-00",
-    step: "미지정 전형",
-    simpleMemo: "작성된 메모가 없습니다."
+  const displayData = {
+    company: expData?.company || "구글 코리아(Google)",
+    tag: expData?.tag || "Software Engineer",
+    date: expData?.date || "2025.12",
+    step: expData?.step || "기술 인터뷰",
+    simpleMemo: expData?.simpleMemo || "면접 분위기가 매우 유연하고 수평적이었음.",
+    progress: expData?.progress || "회고 완료"
   };
 
-  const handleLogoClick = () => {
-    const hasOnboarded = localStorage.getItem('hasOnboarded');
-    if (hasOnboarded) {
-      navigate('/experiences');
-    } else {
-      navigate('/');
-    }
+  // '회고 완료'일 때만 보여줄 추가 데이터 (나중에 백엔드에서 받아올 값들)
+  const reportData = {
+    emotion: { emoji: "😌", label: "평온함", desc: "마음이 차분하고 안정된 상태" },
+    keywords: ["#성장", "#몰입", "#작은성취", "#데이터분석"],
+    summary: "오늘은 복잡했던 로직을 깔끔하게 정리하며 성취감을 느꼈습니다. 조금 느리더라도 방향이 맞다면 괜찮다는 것을 깨달은 하루였습니다.",
+    nextAction: "작업 중간에 15분씩은 꼭 화면에서 눈을 떼고 명상하기"
   };
 
   return (
-    <div className="ui-screen bg-[#F9FAFB]">
-      <div id="app" className="relative w-full min-h-screen font-sans text-[#1A1A1A]">
+    <div className="ui-screen bg-[#F9FAFB] min-h-screen">
+      <div id="app" className="relative w-full flex flex-col items-center font-sans text-[#1A1A1A]">
         
         {/* --- Header --- */}
         <header className="sticky top-0 z-50 w-full h-[80px] bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-[120px]">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/experiences')}>
             <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
               <FontAwesomeIcon icon={faArrowsRotate} className="text-white text-xl" />
             </div>
             <span className="text-2xl font-black tracking-tighter text-[#222222]">RE:TRACE</span>
           </div>
-          <nav className="flex items-center gap-10 font-bold text-gray-500">
-            <button className="hover:text-[#6366F1] transition-colors" onClick={() => navigate('/experiences')}>대시보드</button>
-            <button className="text-[#1A1A1A]">경험 보관함</button>
-            <button className="hover:text-[#6366F1] transition-colors">회고 리포트</button>
-          </nav>
           <div className="flex items-center gap-4">
             <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors">
               <FontAwesomeIcon icon={faBell} />
@@ -68,101 +50,131 @@ const ExperienceDetail = () => {
         </header>
 
         {/* --- Main Content --- */}
-        <main className="px-[120px] py-[60px] flex flex-col items-center">
-          {/* Breadcrumbs */}
-          <div className="w-full max-w-[800px] mb-8 flex items-center gap-2 text-sm font-medium text-gray-400">
+        <main className="px-10 py-10 flex flex-col items-center w-full">
+          <div className="w-full max-w-[540px] mb-5 flex items-center gap-2 text-[13px] font-medium text-gray-400">
             <span className="cursor-pointer hover:text-gray-600" onClick={() => navigate('/experiences')}>나의 경험</span>
-            <FontAwesomeIcon icon={faChevronRight} className="text-[10px]" />
+            <FontAwesomeIcon icon={faChevronRight} className="text-[9px]" />
             <span className="text-gray-900 font-bold">상세 보기</span>
           </div>
 
-          {/* Experience Detail Card */}
-          <div className="w-full max-w-[800px] bg-white rounded-[40px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] border border-gray-100 p-12 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-bl from-[#6366F1]/5 to-transparent rounded-full -mr-20 -mt-20 blur-3xl"></div>
+          {/* Experience Detail Card (540px 비율 유지) */}
+          <div className="w-full max-w-[540px] bg-white rounded-[28px] shadow-[0_20px_40px_-12px_rgba(0,0,0,0.06)] border border-gray-100 p-9 relative overflow-hidden text-left">
+            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-gradient-to-bl from-[#6366F1]/5 to-transparent rounded-full -mr-12 -mt-12 blur-3xl"></div>
 
-            <div className="relative z-10 flex justify-between items-start mb-12">
+            {/* 기존 상단 정보 (회사, 직무, 날짜) */}
+            <div className="relative z-10 flex justify-between items-start mb-8">
               <div>
-                <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#6366F1]/10 text-[#6366F1] text-sm font-bold mb-4">
-                  <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#6366F1]/10 text-[#6366F1] text-[13px] font-bold mb-3">
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-1.5" />
                   채용 프로세스
                 </div>
-                <h1 className="text-5xl font-black text-[#1A1A1A] tracking-tight leading-tight">
+                <h1 className="text-3xl font-bold text-[#1A1A1A] tracking-tight leading-tight">
                   {displayData.company}<br/>
-                  <span className="text-gray-400 font-bold">{displayData.tag}</span>
+                  <span className="text-gray-400 font-medium text-xl">{displayData.tag}</span>
                 </h1>
               </div>
-              <div className="text-right">
-                <span className="text-sm font-medium text-gray-400 mb-1 block">{displayData.date}</span>
-                <div className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-bold text-lg">
-                  {displayData.step}
-                </div>
+              <div className="text-right text-sm">
+                <span className="text-gray-400 font-semibold mb-1 block uppercase tracking-wider">{displayData.date}</span>
+                <div className="px-4 py-2 bg-gray-900 text-white rounded-xl font-bold">{displayData.step}</div>
               </div>
             </div>
 
-            <div className="h-px w-full bg-gray-100 mb-12"></div>
+            <div className="h-px w-full bg-gray-100 mb-8"></div>
 
-            <div className="grid grid-cols-1 gap-10 relative z-10 text-left">
+            {/* 데이터 섹션들 (세로 배치) */}
+            <div className="space-y-8 relative z-10">
+              
+              {/* 1. 간단 메모 (공통) */}
               <section>
-                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">간단 메모</label>
-                <div className="p-8 bg-gray-50 rounded-[32px] border border-gray-100">
-                  <p className="text-xl text-gray-700 leading-relaxed font-medium">
-                    "{displayData.simpleMemo || "작성된 메모가 없습니다."}"
-                  </p>
+                <label className="block text-[13px] font-bold text-gray-400 uppercase tracking-widest mb-3">간단 메모</label>
+                <div className="p-6 bg-gray-50 rounded-[22px] border border-gray-100">
+                  <p className="text-[16px] text-gray-700 leading-relaxed font-medium">"{displayData.simpleMemo}"</p>
                 </div>
               </section>
 
-              <div className="flex items-center justify-between p-8 bg-gradient-to-r from-[#6366F1]/5 to-[#D946EF]/5 rounded-[32px] border border-white">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-4xl">✨</div>
-                  <div>
-                    <label className="block text-sm font-bold text-[#6366F1] mb-1">현재 감정</label>
-                    <span className="text-2xl font-black text-gray-900">설렘과 확신</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <label className="block text-sm font-bold text-gray-400 mb-1 text-left">회고 상태</label>
-                  <div className="flex items-center gap-2 text-[#D946EF] font-bold">
-                    <FontAwesomeIcon icon={faCircleCheck} />
-                    <span>회고 전</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              {/* --- 회고 완료 시에만 나타나는 세로 요소들 --- */}
+              {displayData.progress === "회고 완료" && (
+                <>
+                  {/* 2. 선택한 감정 */}
+                  <section>
+                    <label className="block text-[13px] font-bold text-[#6366F1] uppercase tracking-widest mb-3">오늘의 감정</label>
+                    <div className="flex items-center gap-4 bg-indigo-50/50 p-5 rounded-[22px] border border-indigo-100/50">
+                      <div className="text-4xl">{reportData.emotion.emoji}</div>
+                      <div>
+                        <p className="text-lg font-bold text-gray-900">{reportData.emotion.label}</p>
+                        <p className="text-xs text-gray-500">{reportData.emotion.desc}</p>
+                      </div>
+                    </div>
+                  </section>
 
-            {/* --- CTA Button --- */}
-            <div className="mt-16 flex justify-center">
-              <button 
-                onClick={() => navigate('/reflection-chat')}
-                className="group relative inline-flex items-center justify-center px-12 py-6 bg-gray-900 text-white rounded-[24px] font-black text-xl overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-[#6366F1] to-[#D946EF] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="relative flex items-center gap-3">
-                  <FontAwesomeIcon icon={faRotateLeft} />
-                  이 경험 돌아보기
-                </span>
-              </button>
+                  {/* 3. 오늘의 키워드 */}
+                  <section>
+                    <label className="block text-[13px] font-bold text-indigo-600 uppercase tracking-widest mb-3">키워드</label>
+                    <div className="flex flex-wrap gap-2">
+                      {reportData.keywords.map(kw => (
+                        <span key={kw} className="px-4 py-2 bg-white border border-gray-100 rounded-full text-[13px] font-bold text-gray-600 shadow-sm">{kw}</span>
+                      ))}
+                    </div>
+                  </section>
+
+                  {/* 4. 회고 요약 */}
+                  <section>
+                    <label className="block text-[13px] font-bold text-indigo-600 uppercase tracking-widest mb-3">회고 요약</label>
+                    <div className="relative pl-6 py-2">
+                      <FontAwesomeIcon icon={faQuoteLeft} className="text-indigo-100 text-3xl absolute top-0 left-0" />
+                      <p className="text-[17px] font-medium text-gray-800 leading-relaxed">
+                        {reportData.summary}
+                      </p>
+                    </div>
+                  </section>
+
+                  {/* 5. 다음에 바꿀 한 가지 */}
+                  <section>
+                    <label className="block text-[13px] font-bold text-indigo-600 uppercase tracking-widest mb-3">Action Item</label>
+                    <div className="bg-[#111827] p-5 rounded-[22px] flex items-start gap-4 shadow-lg shadow-indigo-100">
+                      <div className="w-10 h-10 bg-[#D9F99D] rounded-xl flex items-center justify-center flex-shrink-0">
+                        <FontAwesomeIcon icon={faBolt} className="text-[#111827]" />
+                      </div>
+                      <p className="text-white text-[15px] font-medium leading-snug">
+                        {reportData.nextAction}
+                      </p>
+                    </div>
+                  </section>
+                </>
+              )}
+
+              {/* 회고 상태 표시 배지 */}
+              <div className={`flex items-center justify-between p-6 bg-gradient-to-r ${displayData.progress === "회고 완료" ? "from-[#D946EF]/5 to-[#6366F1]/5" : "from-[#6366F1]/5 to-[#D946EF]/5"} rounded-[22px] border border-white`}>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-2xl">
+                    {displayData.progress === "회고 완료" ? "✨" : "❓"}
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#6366F1] mb-0.5">상태</label>
+                    <span className="text-xl font-black text-gray-900">{displayData.progress}</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => navigate('/reflection-chat')}
+                  className="px-5 py-2.5 bg-gray-900 text-white rounded-xl font-bold text-sm"
+                >
+                  {displayData.progress === "회고 완료" ? "다시 회고하기" : "회고 시작하기"}
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="mt-12 flex items-center gap-8">
-            <button className="flex items-center gap-2 text-gray-400 font-bold hover:text-gray-600 transition-colors">
-              <FontAwesomeIcon icon={faPenToSquare} /> 정보 수정하기
+          {/* 하단 버튼 */}
+          <div className="mt-8 flex items-center gap-6">
+            <button className="flex items-center gap-2 text-gray-400 text-xs font-bold hover:text-gray-600 transition-colors">
+              <FontAwesomeIcon icon={faPenToSquare} /> 정보 수정
             </button>
-            <div className="w-1.5 h-1.5 bg-gray-200 rounded-full"></div>
-            <button className="flex items-center gap-2 text-gray-400 font-bold hover:text-red-500 transition-colors">
+            <div className="w-1 h-1 bg-gray-200 rounded-full"></div>
+            <button className="flex items-center gap-2 text-gray-400 text-xs font-bold hover:text-red-500 transition-colors">
               <FontAwesomeIcon icon={faTrashCan} /> 삭제하기
             </button>
           </div>
         </main>
-
-        <div className="fixed bottom-10 right-10 flex flex-col gap-4">
-          <button className="w-16 h-16 bg-white shadow-2xl rounded-full flex items-center justify-center text-gray-900 text-xl hover:bg-gray-50 transition-all border border-gray-100">
-            <FontAwesomeIcon icon={faShareNodes} />
-          </button>
-          <button onClick={() => navigate('/experiences')} className="w-16 h-16 bg-gray-900 shadow-2xl rounded-full flex items-center justify-center text-white text-xl hover:scale-110 transition-all">
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
-        </div>
       </div>
     </div>
   );

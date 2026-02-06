@@ -3,41 +3,68 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faArrowsRotate, faCode, faPenNib, faChartLine, faBullhorn, 
-  faCheck, faArrowRight, faCircleQuestion, faCircle 
+  faCheck, faArrowRight, faCircleQuestion, faCircle, faUser
 } from '@fortawesome/free-solid-svg-icons';
 
 const Onboarding = () => {
   const navigate = useNavigate();
 
-  // 1. 모든 선택 정보를 담을 상태(State)
+  // 1. 모든 값이 비어있는 상태로 초기화 (기본 선택 해제)
   const [formData, setFormData] = useState({
-    jobCategory: '개발', // 기본값
-    careerStage: '주니어 (1~3년)', // 기본값
-    preparationMethod: ['포트폴리오 정리', '경험 기술서 작성'] // 기본값 배열
+    name: '',
+    jobCategory: '', // 기본값 제거
+    careerStage: '', // 기본값 제거
+    preparationMethod: [] // 빈 배열로 시작
   });
 
-  // 직군 및 경력 단계 선택 핸들러 (단일 선택)
+  // 입력값 변경 핸들러
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // 단일 선택 핸들러
   const handleSingleSelect = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  // 준비 방식 선택 핸들러 (복수 선택 배열 로직)
+  // 복수 선택 핸들러
   const handleMultiSelect = (value) => {
     setFormData(prev => {
       const { preparationMethod } = prev;
       if (preparationMethod.includes(value)) {
-        // 이미 있으면 제거
         return { ...prev, preparationMethod: preparationMethod.filter(item => item !== value) };
       } else {
-        // 없으면 추가
         return { ...prev, preparationMethod: [...preparationMethod, value] };
       }
     });
   };
 
+  // 저장 버튼 클릭 시 유효성 검사
+  const handleSubmit = () => {
+    if (!formData.name.trim()) {
+      alert("성함을 입력해 주세요.");
+      return;
+    }
+    if (!formData.jobCategory) {
+      alert("희망 직군을 선택해 주세요.");
+      return;
+    }
+    if (!formData.careerStage) {
+      alert("경력 단계를 선택해 주세요.");
+      return;
+    }
+    
+    console.log("서버로 보낼 최종 데이터:", formData);
+    localStorage.setItem('hasOnboarded', 'true');
+    localStorage.setItem('userName', formData.name);
+    navigate('/experiences');
+  };
+
   return (
     <div className="ui-screen bg-[#F8FAFC]">
       <div id="app" className="relative w-full min-h-screen overflow-x-hidden">
+        
         {/* Header */}
         <header className="sticky top-0 z-50 w-full h-20 bg-white/80 backdrop-blur-md px-12 flex items-center justify-between border-b border-slate-100">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
@@ -51,15 +78,37 @@ const Onboarding = () => {
 
         <main className="relative z-10 w-full max-w-[840px] mx-auto pt-20 pb-32">
           <section className="mb-16 text-center">
-            <h1 className="text-[42px] font-black text-slate-900 leading-tight mb-4">
+            <h1 className="text-[42px] font-black text-slate-900 leading-tight mb-4 text-left">
               나만의 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#A855F7]">커리어 서사</span>를<br/>시작해볼까요?
             </h1>
           </section>
 
-          <div className="space-y-12">
-            {/* 1. 직군 선택 (단일) */}
-            <section>
-              <h2 className="text-xl font-bold text-slate-800 mb-6">1. 희망하는 직군을 선택해주세요</h2>
+          <div className="space-y-16">
+            {/* 0. 이름 입력 */}
+            <section className="bg-white p-10 rounded-[32px] border border-slate-100 shadow-sm text-left">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">0</span>
+                <h2 className="text-xl font-bold text-slate-800">어떻게 불러드리면 될까요?</h2>
+              </div>
+              <div className="relative max-w-[400px]">
+                <FontAwesomeIcon icon={faUser} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" />
+                <input 
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="성함을 입력해 주세요"
+                  className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-700"
+                />
+              </div>
+            </section>
+
+            {/* 1. 직군 선택 (기본 선택 없음) */}
+            <section className="text-left">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">1</span>
+                <h2 className="text-xl font-bold text-slate-800">희망하는 직군을 선택해주세요</h2>
+              </div>
               <div className="grid grid-cols-4 gap-4">
                 {[
                   { label: '개발', icon: faCode },
@@ -78,9 +127,12 @@ const Onboarding = () => {
               </div>
             </section>
 
-            {/* 2. 경력 단계 (단일) */}
-            <section>
-              <h2 className="text-xl font-bold text-slate-800 mb-6">2. 현재 어느 단계에 계신가요?</h2>
+            {/* 2. 경력 단계 (기본 선택 없음) */}
+            <section className="text-left">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">2</span>
+                <h2 className="text-xl font-bold text-slate-800">현재 어느 단계에 계신가요?</h2>
+              </div>
               <div className="flex flex-wrap gap-3">
                 {['취준생 / 신입', '주니어 (1~3년)', '미들 (4~7년)', '시니어 (8년 이상)'].map((stage) => (
                   <button 
@@ -94,9 +146,12 @@ const Onboarding = () => {
               </div>
             </section>
 
-            {/* 3. 준비 방식 (복수) */}
-            <section>
-              <h2 className="text-xl font-bold text-slate-800 mb-6">3. 어떤 방식으로 준비하고 계신가요? (복수 선택)</h2>
+            {/* 3. 준비 방식 (복수 선택) */}
+            <section className="text-left">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">3</span>
+                <h2 className="text-xl font-bold text-slate-800">어떤 방식으로 준비하고 계신가요? (복수 선택)</h2>
+              </div>
               <div className="flex flex-wrap gap-3">
                 {['포트폴리오 정리', '실전 면접 대비', '경험 기술서 작성', '코딩 테스트/과제'].map(method => (
                   <MethodTag 
@@ -110,13 +165,9 @@ const Onboarding = () => {
             </section>
           </div>
 
-          {/* 저장 버튼 */}
           <section className="mt-20 flex flex-col items-center">
             <button 
-              onClick={() => {
-                console.log("서버로 보낼 데이터:", formData);
-                navigate('/experiences');
-              }}
+              onClick={handleSubmit}
               className="w-full max-w-[400px] h-16 bg-slate-900 hover:bg-indigo-600 text-white rounded-2xl font-black text-xl shadow-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
             >
               저장하고 시작하기 <FontAwesomeIcon icon={faArrowRight} />
@@ -128,7 +179,7 @@ const Onboarding = () => {
   );
 };
 
-// 서브 컴포넌트들
+// 서브 컴포넌트 동일 유지
 const JobButton = ({ icon, label, active, onClick }) => (
   <button 
     onClick={onClick}
