@@ -23,15 +23,43 @@ export default function Dashboard() {
           message: '대시보드 데이터 조회 성공',
           data: {
             userId: 1,
-            summary: { totalReflections: 42, thisMonthReflections: 15 },
-            mostFailedStage: '서류 전형',
+            summary: {
+              totalReflections: 42,
+              thisMonthReflections: 15,
+            },
+            stageFailureRates: [
+              {
+                stage: '최종 면접',
+                failureCount: 28,
+                totalCount: 42,
+                failureRate: 68,
+                description:
+                  '답변 질문에 대한 답이가 부족해 행했던 경험이 있어',
+              },
+              {
+                stage: '코딩 테스트',
+                failureCount: 18,
+                totalCount: 42,
+                failureRate: 42,
+                description: '시간 관리 해내지서 말을 뱉지 않이 말고 말야',
+              },
+              {
+                stage: '서류 전형',
+                failureCount: 8,
+                totalCount: 42,
+                failureRate: 18,
+                description: '지원 적합도 기하드는 비중 당청하게',
+              },
+            ],
             topKeywords: [
               { keyword: '성장', count: 12 },
               { keyword: '몰입', count: 8 },
+              { keyword: '성취', count: 6 },
             ],
             monthlyReflectionCount: [
               { month: '2025-01', count: 8 },
               { month: '2025-02', count: 15 },
+              { month: '2025-03', count: 19 },
             ],
           },
         };
@@ -52,7 +80,11 @@ export default function Dashboard() {
   const total = summary?.totalReflections ?? 0;
   const thisMonth = summary?.thisMonthReflections ?? 0;
 
-  const mostFailedStage = raw?.mostFailedStage || '—';
+  // Get sorted failure rates
+  const stageFailureRates = useMemo(() => {
+    if (!raw?.stageFailureRates) return [];
+    return [...raw.stageFailureRates].sort((a, b) => b.failureRate - a.failureRate);
+  }, [raw]);
 
   const topKeywords = raw?.topKeywords || [];
   const monthly = useMemo(() => raw?.monthlyReflectionCount ?? [], [raw]);
@@ -151,21 +183,48 @@ export default function Dashboard() {
                   </p>
                 </div>
 
-                {/* Most failed stage */}
+                {/* Stage Failure Rates */}
                 <div className="bg-[#0F172A] p-6 rounded-[32px] shadow-xl text-white relative overflow-hidden">
                   <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-[2px]" />
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-300 font-bold text-sm uppercase tracking-widest">
-                      가장 자주 흔들린 단계
-                    </span>
-                    <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center">
-                      <i className="fa-solid fa-triangle-exclamation text-pink-400" />
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-slate-300 font-bold text-sm uppercase tracking-widest">
+                        자주 흔들린 전형 단계
+                      </span>
+                      <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center">
+                        <i className="fa-solid fa-chart-line text-pink-400 text-sm" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-4">
-                    <p className="text-2xl font-black">{mostFailedStage}</p>
-                    <p className="mt-2 text-sm text-slate-300 font-medium">
-                      이 단계에서 반복적으로 어려움을 겪는 경향이 있어요.
+                    
+                    <div className="space-y-5">
+                      {stageFailureRates.map((s, idx) => {
+                        const colors = [
+                          'bg-gradient-to-r from-rose-500 to-pink-500',
+                          'bg-gradient-to-r from-orange-400 to-amber-500',
+                          'bg-gradient-to-r from-indigo-400 to-violet-500',
+                          'bg-gradient-to-r from-emerald-400 to-teal-500'
+                        ];
+                        const barColor = colors[idx % colors.length];
+
+                        return (
+                          <div key={s.stage} className="space-y-2">
+                            <div className="flex justify-between items-end">
+                              <span className="text-sm font-bold text-slate-200">{s.stage}</span>
+                              <span className="text-lg font-black text-white">{s.failureRate}%</span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div 
+                                className={`h-full ${barColor} transition-all duration-1000`} 
+                                style={{ width: `${s.failureRate}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    <p className="mt-6 text-xs text-slate-400 font-medium leading-relaxed">
+                      상위 단계일수록 더 많은 주의와 회고가 필요해요.
                     </p>
                   </div>
                 </div>

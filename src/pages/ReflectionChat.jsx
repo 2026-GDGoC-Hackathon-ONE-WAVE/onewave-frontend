@@ -58,17 +58,41 @@ export default function ReflectionChat() {
     queueMicrotask(scrollToBottom);
   };
 
-  const handleSelectEmotion = (emotion) => {
+  const handleSelectEmotion = async (emotion) => {
     if (selectedEmotion) return;
 
     setSelectedEmotion(emotion);
+    // UI: User selects emotion
     pushMessage('user', emotion.label);
 
-    // UI 전용: 세션 시작 후 첫 질문처럼 보이게
-    pushMessage(
-      'ai',
-      '좋아요. 회고를 시작해볼까요?\n이번 경험에서 가장 신경 쓴 부분은 무엇이었나요?',
-    );
+    // Simulate API: POST /api/chat/sessions
+    // Request: { applicationId: 1, selectedEmotion: emotion.label }
+    // Response: { ... data: { firstMessage: { content: "..." } } }
+    setIsSending(true);
+    try {
+      await new Promise((r) => setTimeout(r, 600));
+
+      // Dummy response data
+      const responseData = {
+        sessionId: 1,
+        applicationId: 1,
+        companyName: '토스',
+        jobTitle: 'Product Designer',
+        selectedEmotion: emotion.label,
+        createdAt: new Date().toISOString(),
+        firstMessage: {
+          messageId: 1,
+          senderType: 'AI',
+          content:
+            '안녕하세요! 토스 서류 전형에 대한 회고를 시작하겠습니다. 먼저, 이번 지원에서 가장 신경 쓴 부분은 무엇이었나요?',
+          createdAt: new Date().toISOString(),
+        },
+      };
+
+      pushMessage('ai', responseData.firstMessage.content);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const sendMessage = async () => {
@@ -77,14 +101,33 @@ export default function ReflectionChat() {
     const userText = input.trim();
     setInput('');
 
-    // UI: 사용자 메시지 추가
+    // UI: User message
     pushMessage('user', userText);
 
-    // UI: AI 타이핑 느낌
+    // Simulate API: POST /api/chat/sessions/{sessionId}/messages
+    // Request: { message: userText }
+    // Response: { ... data: { aiMessage: { content: "..." } } }
     setIsSending(true);
     try {
       await new Promise((r) => setTimeout(r, 600));
-      pushMessage('ai', '좋습니다. 구체적으로 어떤 부분을 강조하셨나요?');
+
+      // Dummy response data
+      const responseData = {
+        userMessage: {
+          messageId: Date.now(),
+          senderType: 'USER',
+          content: userText,
+          createdAt: new Date().toISOString(),
+        },
+        aiMessage: {
+          messageId: Date.now() + 1,
+          senderType: 'AI',
+          content: '좋습니다. 구체적으로 어떤 부분을 강조하셨나요?',
+          createdAt: new Date().toISOString(),
+        },
+      };
+
+      pushMessage('ai', responseData.aiMessage.content);
     } finally {
       setIsSending(false);
     }

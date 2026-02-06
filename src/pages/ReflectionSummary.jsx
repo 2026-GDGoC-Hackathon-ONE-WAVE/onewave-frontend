@@ -1,24 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function ReflectionSummary() {
   const navigate = useNavigate();
+  const [data, setData] = useState(null);
 
-  const emotion = {
-    emoji: '😵‍💫',
-    label: '당황',
-    desc: '예상 밖의 상황에 놀란 상태',
+  useEffect(() => {
+    // Simulate API fetch
+    const fetchData = async () => {
+      // Dummy response matching GET /api/reflections/{reflectionId}
+      const json = {
+        status: 200,
+        success: true,
+        message: '회고 조회 성공',
+        data: {
+          reflectionId: 1,
+          sessionId: 1,
+          applicationId: 1,
+          companyName: '토스',
+          jobTitle: 'Product Designer',
+          selectedEmotion: '당황',
+          userSummary:
+            '오늘은 질문의 의도를 한 번에 파악하지 못해 답변이 길어졌습니다.\n하지만 경험을 다시 정리하면서 어떤 부분을 개선해야 할지 명확해졌습니다.',
+          userImprovement:
+            '답변을 ‘상황-행동-결과’ 구조로 30초 버전부터 연습하기',
+          simpleMemo:
+            '면접 후 바로 정리하지 않아서 기억이 흐릿해졌다.\n다음부터는 면접 끝나고 10분 안에 메모부터 남기자.\n질문 의도를 먼저 말로 정리하는 연습도 필요.',
+          keywords: [
+            { keywordId: 1, keyword: '성장', isSelected: true },
+            { keywordId: 2, keyword: '몰입', isSelected: false },
+            { keywordId: 3, keyword: '커뮤니케이션', isSelected: true },
+            { keywordId: 4, keyword: '정리', isSelected: false },
+            { keywordId: 5, keyword: '회고', isSelected: false },
+          ],
+          createdAt: '2024-02-06T10:05:00',
+        },
+      };
+
+      setData(json.data);
+    };
+
+    fetchData();
+  }, []);
+
+  if (!data) return <div className="min-h-screen bg-[#F3F4F6]" />;
+
+  const emotionLabel = data.selectedEmotion;
+  // Map emotion label to emoji/desc (Client-side mapping or could be in API)
+  const getEmotionDetails = (label) => {
+    const map = {
+      당황: { emoji: '😵‍💫', desc: '예상 밖의 상황에 놀란 상태' },
+      아쉬움: { emoji: '😞', desc: '더 잘할 수 있었는데 하는 마음' },
+      피곤: { emoji: '😮‍💨', desc: '에너지가 많이 소모된 상태' },
+      담담: { emoji: '😐', desc: '감정 동요 없이 차분한 상태' },
+      답답: { emoji: '😤', desc: '뜻대로 되지 않아 답답한 마음' },
+      '그래도 해볼만': { emoji: '✨', desc: '긍정적인 가능성을 본 상태' },
+    };
+    return map[label] || { emoji: '🤔', desc: '' };
   };
 
-  const keywords = ['성장', '몰입', '커뮤니케이션', '정리', '회고'];
-
-  const summary =
-    '오늘은 질문의 의도를 한 번에 파악하지 못해 답변이 길어졌습니다.\n하지만 경험을 다시 정리하면서 어떤 부분을 개선해야 할지 명확해졌습니다.';
-
-  const nextAction = '답변을 ‘상황-행동-결과’ 구조로 30초 버전부터 연습하기';
-
-  const memo =
-    '면접 후 바로 정리하지 않아서 기억이 흐릿해졌다.\n다음부터는 면접 끝나고 10분 안에 메모부터 남기자.\n질문 의도를 먼저 말로 정리하는 연습도 필요.';
+  const { emoji, desc } = getEmotionDetails(emotionLabel);
 
   return (
     <div className="min-h-screen bg-[#F3F4F6]">
@@ -36,6 +77,15 @@ export default function ReflectionSummary() {
               RE:TRACE
             </span>
           </div>
+
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            className="w-10 h-10 flex items-center justify-center bg-gray-50 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition"
+            aria-label="닫기"
+          >
+            <i className="fa-solid fa-xmark text-xl" />
+          </button>
         </div>
       </header>
 
@@ -69,14 +119,12 @@ export default function ReflectionSummary() {
                     선택한 감정
                   </h3>
                   <div className="flex items-center gap-4 bg-indigo-50/60 p-6 rounded-3xl border border-indigo-100/60">
-                    <div className="text-5xl">{emotion.emoji}</div>
+                    <div className="text-5xl">{emoji}</div>
                     <div>
                       <p className="text-xl font-bold text-gray-900">
-                        {emotion.label}
+                        {emotionLabel}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {emotion.desc}
-                      </p>
+                      <p className="text-sm text-gray-500 mt-1">{desc}</p>
                     </div>
                   </div>
                 </div>
@@ -87,18 +135,17 @@ export default function ReflectionSummary() {
                     오늘의 키워드
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {keywords.map((k, idx) => {
-                      const highlight = idx === 2;
+                    {data.keywords.map((k) => {
                       return (
                         <span
-                          key={k}
+                          key={k.keywordId}
                           className={
-                            highlight
+                            k.isSelected
                               ? 'px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-bold shadow-md shadow-indigo-200'
                               : 'px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-semibold text-gray-700 shadow-sm'
                           }
                         >
-                          #{k}
+                          #{k.keyword}
                         </span>
                       );
                     })}
@@ -116,7 +163,7 @@ export default function ReflectionSummary() {
                   <div className="bg-gray-50 border border-gray-100 rounded-3xl p-7 relative">
                     <i className="fa-solid fa-quote-left text-gray-200 text-3xl absolute -top-3 -left-3" />
                     <p className="text-lg font-medium text-gray-800 leading-relaxed whitespace-pre-line">
-                      {summary}
+                      {data.userSummary}
                     </p>
                   </div>
                 </div>
@@ -131,7 +178,7 @@ export default function ReflectionSummary() {
                       <i className="fa-solid fa-bolt text-[#111827]" />
                     </div>
                     <p className="text-white text-lg font-semibold leading-snug whitespace-pre-line">
-                      {nextAction}
+                      {data.userImprovement}
                     </p>
                   </div>
                 </div>
@@ -142,7 +189,7 @@ export default function ReflectionSummary() {
 
                   <div className="bg-indigo-50/40 border border-indigo-100/60 rounded-3xl p-7 shadow-sm">
                     <p className="text-[15px] font-medium text-gray-800 leading-relaxed whitespace-pre-line">
-                      {memo}
+                      {data.simpleMemo}
                     </p>
                   </div>
                 </div>
