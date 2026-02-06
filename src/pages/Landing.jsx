@@ -39,7 +39,7 @@ const Landing = () => {
               <h1 className="text-[72px] font-black leading-[1.1] text-[#222222] tracking-tight">
                 탈락을 질문으로
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#A855F7]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FB923C] to-[#FDBA74]">
                   돌아보는 취업 회고
                 </span>
               </h1>
@@ -181,11 +181,11 @@ const Landing = () => {
 // --- 서브 컴포넌트: 특장점 카드 ---
 const FeatureCard = ({ icon, title, desc }) => {
   return (
-    <div className="p-10 bg-[#F9FAFB] rounded-[32px] border border-transparent hover:border-[#6366F1] transition-all group">
-      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-[#6366F1] transition-colors">
+    <div className="p-10 bg-[#F9FAFB] rounded-[32px] border border-transparent hover:border-[#FB923C] transition-all group">
+      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-[#FB923C] transition-colors">
         <FontAwesomeIcon
           icon={icon}
-          className="text-2xl text-[#6366F1] group-hover:text-white"
+          className="text-2xl text-[#FB923C] group-hover:text-white"
         />
       </div>
       <h3 className="text-[24px] font-bold text-[#222222] mb-4">{title}</h3>

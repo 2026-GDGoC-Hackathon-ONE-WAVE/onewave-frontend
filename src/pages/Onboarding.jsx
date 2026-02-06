@@ -77,7 +77,7 @@ const Onboarding = () => {
           <section className="mb-16 text-center">
             <h1 className="text-[42px] font-black text-slate-900 leading-tight mb-4 text-left">
               나만의{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#A855F7]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FB923C] to-[#FDBA74]">
                 커리어 서사
               </span>
               를<br />
@@ -89,7 +89,7 @@ const Onboarding = () => {
             {/* 0. 이름 입력 */}
             <section className="bg-white p-10 rounded-[32px] border border-slate-100 shadow-sm text-left">
               <div className="flex items-center gap-2 mb-6">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-orange-50 text-orange-600 text-xs font-bold">
                   0
                 </span>
                 <h2 className="text-xl font-bold text-slate-800">
@@ -107,7 +107,7 @@ const Onboarding = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="성함을 입력해 주세요"
-                  className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-700"
+                  className="w-full pl-12 pr-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 font-bold text-slate-700"
                 />
               </div>
             </section>
@@ -115,7 +115,7 @@ const Onboarding = () => {
             {/* 1. 직군 선택 (기본 선택 없음) */}
             <section className="text-left">
               <div className="flex items-center gap-2 mb-6">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-orange-50 text-orange-600 text-xs font-bold">
                   1
                 </span>
                 <h2 className="text-xl font-bold text-slate-800">
@@ -145,7 +145,7 @@ const Onboarding = () => {
             {/* 2. 경력 단계 (기본 선택 없음) */}
             <section className="text-left">
               <div className="flex items-center gap-2 mb-6">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-orange-50 text-orange-600 text-xs font-bold">
                   2
                 </span>
                 <h2 className="text-xl font-bold text-slate-800">
@@ -162,7 +162,7 @@ const Onboarding = () => {
                   <button
                     key={stage}
                     onClick={() => handleSingleSelect('careerStage', stage)}
-                    className={`px-8 py-4 rounded-full font-bold transition-all border-2 ${formData.careerStage === stage ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg' : 'bg-white border-slate-100 text-slate-600 hover:border-indigo-200'}`}
+                    className={`px-8 py-4 rounded-full font-bold transition-all border-2 ${formData.careerStage === stage ? 'bg-gradient-to-r from-[#FB923C] to-[#FDBA74] border-[#FB923C] text-white shadow-lg' : 'bg-white border-slate-100 text-slate-600 hover:border-orange-200'}`}
                   >
                     {stage}
                   </button>
@@ -173,7 +173,7 @@ const Onboarding = () => {
             {/* 3. 준비 방식 (복수 선택) */}
             <section className="text-left">
               <div className="flex items-center gap-2 mb-6">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-orange-50 text-orange-600 text-xs font-bold">
                   3
                 </span>
                 <h2 className="text-xl font-bold text-slate-800">
@@ -201,7 +201,7 @@ const Onboarding = () => {
           <section className="mt-20 flex flex-col items-center">
             <button
               onClick={handleSubmit}
-              className="w-full max-w-[400px] h-16 bg-slate-900 hover:bg-indigo-600 text-white rounded-2xl font-black text-xl shadow-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
+              className="w-full max-w-[400px] h-16 bg-slate-900 hover:bg-gradient-to-r hover:from-[#FB923C] hover:to-[#FDBA74] text-white rounded-2xl font-black text-xl shadow-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
             >
               저장하고 시작하기 <FontAwesomeIcon icon={faArrowRight} />
             </button>
@@ -216,10 +216,10 @@ const Onboarding = () => {
 const JobButton = ({ icon, label, active, onClick }) => (
   <button
     onClick={onClick}
-    className={`group flex flex-col items-center justify-center p-6 bg-white border-2 rounded-2xl transition-all ${active ? 'border-indigo-600 shadow-xl shadow-indigo-100/50' : 'border-transparent hover:border-slate-200 shadow-sm'}`}
+    className={`group flex flex-col items-center justify-center p-6 bg-white border-2 rounded-2xl transition-all ${active ? 'border-orange-600 shadow-orange-100/50' : 'border-transparent hover:border-slate-200 shadow-sm'}`}
   >
     <div
-      className={`w-12 h-12 mb-4 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${active ? 'bg-indigo-50 text-indigo-600' : 'bg-slate-50 text-slate-400'}`}
+      className={`w-12 h-12 mb-4 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${active ? 'bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white' : 'bg-slate-50 text-slate-400'}`}
     >
       <FontAwesomeIcon icon={icon} className="text-xl" />
     </div>
@@ -234,14 +234,14 @@ const JobButton = ({ icon, label, active, onClick }) => (
 const MethodTag = ({ label, active, onClick }) => (
   <button
     onClick={onClick}
-    className={`group flex items-center gap-2 px-6 py-4 border-2 rounded-xl font-bold transition-all ${active ? 'bg-indigo-50 border-indigo-500 text-indigo-700' : 'bg-white border-slate-100 text-slate-500 hover:border-indigo-200 hover:text-indigo-600'}`}
+    className={`group flex items-center gap-2 px-6 py-4 border-2 rounded-xl font-bold transition-all ${active ? 'bg-gradient-to-r from-[#FB923C] to-[#FDBA74] border-[#FB923C] text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-orange-200 hover:text-orange-600'}`}
   >
     <FontAwesomeIcon
       icon={active ? faCheck : faCircle}
       className={
         active
           ? 'text-sm'
-          : 'text-sm text-slate-200 group-hover:text-indigo-200'
+          : 'text-sm text-slate-200 group-hover:text-orange-200'
       }
     />
     {label}

@@ -118,7 +118,7 @@ export default function ReflectionChat() {
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
               <span className="text-sm font-bold text-gray-900">회고 대화 진행 중</span>
             </div>
             <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded">Session #{sessionId}</span>
@@ -164,9 +164,9 @@ export default function ReflectionChat() {
 
           {selectedEmotion && (
             <div className="ml-12">
-              <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1 text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 rounded-full bg-orange-50 text-orange-700 border border-orange-100 px-3 py-1 text-xs font-semibold">
                 감정 선택 완료{' '}
-                <span className="text-indigo-600">{selectedEmotion.label}</span>
+                <span className="text-orange-600">{selectedEmotion.label}</span>
               </div>
             </div>
           )}
@@ -205,7 +205,7 @@ export default function ReflectionChat() {
               type="button"
               onClick={sendMessage}
               disabled={!canSend}
-              className="shrink-0 h-10 px-4 rounded-xl bg-indigo-600 text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-700 transition"
+              className="shrink-0 h-10 px-4 rounded-xl bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:from-[#EA580C] hover:to-[#FB923C] transition"
             >
               {isSending ? '전송중…' : '전송'}
             </button>
@@ -228,8 +228,8 @@ function ChatBubble({ role, text, time }) {
         className={[
           'w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-sm',
           isUser
-            ? 'bg-indigo-600 text-white'
-            : 'bg-white border border-gray-100 text-indigo-600',
+            ? 'bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white'
+            : 'bg-white border border-gray-100 text-orange-600',
         ].join(' ')}
         aria-hidden="true"
       >
@@ -243,7 +243,7 @@ function ChatBubble({ role, text, time }) {
           className={[
             'px-4 py-3 rounded-2xl max-w-[520px] whitespace-pre-line text-sm leading-relaxed',
             isUser
-              ? 'bg-indigo-600 text-white rounded-tr-none'
+              ? 'bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white rounded-tr-none'
               : 'bg-white text-gray-800 border border-gray-100 rounded-tl-none',
           ].join(' ')}
         >

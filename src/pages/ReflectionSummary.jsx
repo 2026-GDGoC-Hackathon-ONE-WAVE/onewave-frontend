@@ -44,8 +44,8 @@ export default function ReflectionSummary() {
         <div className="mx-auto max-w-[1100px]">
           {/* Title */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-3xl mb-4">
-              <i className="fa-solid fa-check-double text-indigo-600 text-2xl" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-3xl mb-4">
+              <i className="fa-solid fa-check-double text-orange-600 text-2xl" />
             </div>
             <h1 className="text-3xl font-black text-gray-900">
               오늘의 회고가 완료되었습니다
@@ -94,7 +94,7 @@ export default function ReflectionSummary() {
                           key={k}
                           className={
                             highlight
-                              ? 'px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-bold shadow-md shadow-indigo-200'
+                              ? 'px-4 py-2 bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white rounded-full text-sm font-bold shadow-md shadow-orange-200'
                               : 'px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-semibold text-gray-700 shadow-sm'
                           }
                         >
@@ -140,7 +140,7 @@ export default function ReflectionSummary() {
                     메모
                   </h3>
 
-                  <div className="bg-indigo-50/40 border border-indigo-100/60 rounded-3xl p-7 shadow-sm">
+                  <div className="bg-orange-50/40 border-orange-100/60 rounded-3xl p-7 shadow-sm">
                     <p className="text-[15px] font-medium text-gray-800 leading-relaxed whitespace-pre-line">
                       {memo}
                     </p>
@@ -169,7 +169,7 @@ export default function ReflectionSummary() {
                 <button
                   type="button"
                   onClick={() => navigate('/')}
-                  className="px-7 py-3 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200"
+                  className="px-7 py-3 bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white rounded-2xl font-bold hover:from-[#EA580C] hover:to-[#FB923C] transition shadow-lg shadow-orange-200"
                 >
                   홈으로 돌아가기
                 </button>

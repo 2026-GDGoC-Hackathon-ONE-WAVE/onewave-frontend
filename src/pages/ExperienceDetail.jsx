@@ -65,12 +65,12 @@ const ExperienceDetail = () => {
 
           {/* Experience Detail Card (540px 비율 유지) */}
           <div className="w-full max-w-[540px] bg-white rounded-[28px] shadow-[0_20px_40px_-12px_rgba(0,0,0,0.06)] border border-gray-100 p-9 relative overflow-hidden text-left">
-            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-gradient-to-bl from-[#6366F1]/5 to-transparent rounded-full -mr-12 -mt-12 blur-3xl"></div>
+            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-gradient-to-bl from-[#FB923C]/5 to-transparent rounded-full -mr-12 -mt-12 blur-3xl"></div>
 
             {/* 기존 상단 정보 (회사, 직무, 날짜) */}
             <div className="relative z-10 flex justify-between items-start mb-8">
               <div>
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#6366F1]/10 text-[#6366F1] text-[13px] font-bold mb-3">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[13px] font-bold mb-3">
                   <FontAwesomeIcon icon={faBriefcase} className="mr-1.5" />
                   채용 프로세스
                 </div>
@@ -113,10 +113,10 @@ const ExperienceDetail = () => {
                 <>
                   {/* 2. 선택한 감정 */}
                   <section>
-                    <label className="block text-[13px] font-bold text-[#6366F1] uppercase tracking-widest mb-3">
+                    <label className="block text-[13px] font-bold text-orange-600 uppercase tracking-widest mb-3">
                       오늘의 감정
                     </label>
-                    <div className="flex items-center gap-4 bg-indigo-50/50 p-5 rounded-[22px] border border-indigo-100/50">
+                    <div className="flex items-center gap-4 bg-orange-50/50 p-5 rounded-[22px] border border-orange-100/50">
                       <div className="text-4xl">{reportData.emotion.emoji}</div>
                       <div>
                         <p className="text-lg font-bold text-gray-900">
@@ -131,7 +131,7 @@ const ExperienceDetail = () => {
 
                   {/* 3. 오늘의 키워드 */}
                   <section>
-                    <label className="block text-[13px] font-bold text-indigo-600 uppercase tracking-widest mb-3">
+                    <label className="block text-[13px] font-bold ttext-orange-600 uppercase tracking-widest mb-3">
                       키워드
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -148,7 +148,7 @@ const ExperienceDetail = () => {
 
                   {/* 4. 회고 요약 */}
                   <section>
-                    <label className="block text-[13px] font-bold text-indigo-600 uppercase tracking-widest mb-3">
+                    <label className="block text-[13px] font-bold text-orange-600 uppercase tracking-widest mb-3">
                       회고 요약
                     </label>
                     <div className="relative pl-6 py-2">
@@ -160,10 +160,10 @@ const ExperienceDetail = () => {
 
                   {/* 5. 다음에 바꿀 한 가지 */}
                   <section>
-                    <label className="block text-[13px] font-bold text-indigo-600 uppercase tracking-widest mb-3">
+                    <label className="block text-[13px] font-bold text-orange-600 uppercase tracking-widest mb-3">
                       Action Item
                     </label>
-                    <div className="bg-[#111827] p-5 rounded-[22px] flex items-start gap-4 shadow-lg shadow-indigo-100">
+                    <div className="bg-[#111827] p-5 rounded-[22px] flex items-start gap-4 shadow-lg shadow-orange-100">
                       <div className="w-10 h-10 bg-[#D9F99D] rounded-xl flex items-center justify-center flex-shrink-0">
                         <FontAwesomeIcon
                           icon={faBolt}
@@ -180,14 +180,14 @@ const ExperienceDetail = () => {
 
               {/* 회고 상태 표시 배지 */}
               <div
-                className={`flex items-center justify-between p-6 bg-gradient-to-r ${displayData.progress === '회고 완료' ? 'from-[#D946EF]/5 to-[#6366F1]/5' : 'from-[#6366F1]/5 to-[#D946EF]/5'} rounded-[22px] border border-white`}
+                className={`flex items-center justify-between p-6 bg-gradient-to-r ${displayData.progress === '회고 완료' ? 'from-[#FB923C]/5 to-[#FDBA74]/5' : 'from-[#FDBA74]/5 to-[#FB923C]/5'} rounded-[22px] border border-white`}
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-2xl">
                     {displayData.progress === '회고 완료' ? '✨' : '❓'}
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-[#6366F1] mb-0.5">
+                    <label className="block text-[11px] font-bold text-orange-600 mb-0.5">
                       상태
                     </label>
                     <span className="text-xl font-black text-gray-900">

@@ -113,12 +113,12 @@ const Experiences = () => {
       >
         <main className="w-full max-w-[1200px] mx-auto px-6 py-12">
           {/* --- Hero CTA Section --- */}
-          <section className="relative w-full h-[240px] bg-gradient-to-br from-[#1E1B4B] to-[#312E81] rounded-[32px] mb-12 overflow-hidden flex items-center justify-between px-16 shadow-2xl">
+          <section className="relative w-full h-[240px] bg-gradient-to-br from-[#1C1917] to-[#7C2D12] rounded-[32px] mb-12 overflow-hidden flex items-center justify-between px-16 shadow-2xl shadow-orange-900/10">
             <div className="relative z-10 text-left">
               <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
                 아직 정리되지 않은
                 <br />
-                <span className="text-[#DFFF00]">
+                <span className="text-[#FB923C]">
                   {
                     experienceList.filter((e) => e.progress !== '회고 완료')
                       .length
@@ -127,7 +127,7 @@ const Experiences = () => {
                 </span>
                 이 기다리고 있어요.
               </h1>
-              <button className="group flex items-center gap-3 bg-[#DFFF00] hover:bg-[#EFFF50] text-[#1E1B4B] px-8 py-4 rounded-full font-black text-lg transition-all transform hover:scale-105 active:scale-95 shadow-xl">
+              <button className="group flex items-center gap-3 bg-[#F97316] hover:bg-[#FB923C] text-white px-8 py-4 rounded-full font-black text-lg transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-orange-500/20">
                 최근 경험 돌아보기
                 <FontAwesomeIcon
                   icon={faArrowRight}
@@ -136,10 +136,10 @@ const Experiences = () => {
               </button>
             </div>
             <div className="relative w-[300px] h-full flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-t from-indigo-500/20 to-transparent blur-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent blur-3xl"></div>
               <img
                 className="relative z-10 w-[280px] h-[280px] object-contain drop-shadow-2xl"
-                src="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-ad8159ae-7156-4170-a7f7-c11960fee2e9.jpg"
+                src="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-6b969030-2be0-4d32-adb4-4d4231b71363.jpg"
                 alt="Illustration"
               />
             </div>
@@ -149,12 +149,12 @@ const Experiences = () => {
           <div className="grid grid-cols-3 gap-8">
             <div
               onClick={() => setIsModalOpen(true)}
-              className="group relative bg-white border-2 border-dashed border-gray-200 rounded-[28px] p-8 flex flex-col items-center justify-center gap-6 hover:border-indigo-400 hover:bg-indigo-50/30 transition-all cursor-pointer min-h-[420px]"
+              className="group relative bg-white border-2 border-dashed border-gray-200 rounded-[28px] p-8 flex flex-col items-center justify-center gap-6 hover:border-orange-400 hover:bg-orange-50/30 transition-all cursor-pointer min-h-[420px]"
             >
-              <div className="w-20 h-20 bg-gray-50 group-hover:bg-indigo-100 rounded-full flex items-center justify-center transition-colors">
+              <div className="w-20 h-20 bg-gray-50 group-hover:bg-orange-100 rounded-full flex items-center justify-center transition-colors">
                 <FontAwesomeIcon
                   icon={faPlus}
-                  className="text-3xl text-gray-400 group-hover:text-indigo-600"
+                  className="text-3xl text-gray-400 group-hover:text-orange-600"
                 />
               </div>
               <div className="text-center text-left">
@@ -216,7 +216,7 @@ const Experiences = () => {
                     onChange={handleChange}
                     type="text"
                     placeholder="예: 토스"
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -230,7 +230,7 @@ const Experiences = () => {
                       onChange={handleChange}
                       type="text"
                       placeholder="2025-02-01"
-                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium"
                     />
                   </div>
                   <div>
@@ -243,7 +243,7 @@ const Experiences = () => {
                       onChange={handleChange}
                       type="text"
                       placeholder="예: Product Designer"
-                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium"
                     />
                   </div>
                 </div>
@@ -256,7 +256,7 @@ const Experiences = () => {
                       name="step"
                       value={newExp.step}
                       onChange={handleChange}
-                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium appearance-none cursor-pointer"
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium appearance-none cursor-pointer"
                     >
                       <option>서류 전형</option>
                       <option>과제/코딩 테스트</option>
@@ -282,7 +282,7 @@ const Experiences = () => {
                     onChange={handleChange}
                     rows="3"
                     placeholder="면접 당시 느꼈던 점이나 특징을 간단히 적어주세요."
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium resize-none"
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium resize-none"
                   ></textarea>
                 </div>
                 <button
@@ -341,7 +341,7 @@ const ExperienceCard = ({
           </div>
         </div>
         <div className="space-y-4">
-          <span className="inline-block px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-bold">
+          <span className="inline-block px-3 py-1.5 bg-orange-50 text-orange-600 rounded-lg text-sm font-bold">
             {tag}
           </span>
           <div className="p-4 bg-gray-50 rounded-2xl mt-4">
@@ -355,12 +355,12 @@ const ExperienceCard = ({
       <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div
-            className={`w-2.5 h-2.5 rounded-full ${progress === '회고 완료' ? 'bg-[#D946EF]' : progress === '회고 중' ? 'bg-orange-400 animate-pulse' : 'bg-gray-300'}`}
+            className={`w-2.5 h-2.5 rounded-full ${progress === '회고 완료' ? 'bg-[#10B981]' : progress === '회고 중' ? 'bg-orange-400 animate-pulse' : 'bg-gray-300'}`}
           ></div>
           <span className="text-sm font-bold text-gray-700">{progress}</span>
         </div>
         <button
-          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${progress === '회고 완료' ? 'bg-[#D946EF] text-white shadow-lg' : isStart ? 'bg-indigo-600 text-white shadow-lg' : 'bg-gray-900 text-white'}`}
+          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${progress === '회고 완료' ? 'bg-[#10B981] text-white shadow-lg' : isStart ? 'bg-gradient-to-r from-[#FB923C] to-[#FDBA74] text-white shadow-lg' : 'bg-gray-900 text-white'}`}
         >
           {progress === '회고 완료'
             ? '결과 보기'
@@ -375,7 +375,7 @@ const ExperienceCard = ({
 
 const NavBtn = ({ icon, label, active }) => (
   <button
-    className={`flex flex-col items-center gap-1 ${active ? 'text-indigo-600' : 'text-gray-400 hover:text-gray-600'} transition-colors text-left`}
+    className={`flex flex-col items-center gap-1 ${active ? 'text-orange-600' : 'text-gray-400 hover:text-gray-600'} transition-colors text-left`}
   >
     <FontAwesomeIcon icon={icon} className="text-xl" />
     <span className="text-[10px] font-black">{label}</span>

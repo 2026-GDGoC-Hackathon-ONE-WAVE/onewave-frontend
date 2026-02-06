@@ -97,7 +97,7 @@ export default function Dashboard() {
               <p className="text-slate-600">{errorMsg}</p>
               <button
                 type="button"
-                className="mt-6 px-5 py-3 rounded-2xl bg-indigo-600 text-white font-bold"
+                className="mt-6 px-5 py-3 rounded-2xl bg-orange-600 text-white font-bold"
                 onClick={() => window.location.reload()}
               >
                 새로고침
@@ -115,8 +115,8 @@ export default function Dashboard() {
                     <span className="text-slate-400 font-bold text-sm uppercase tracking-widest">
                       누적 회고
                     </span>
-                    <div className="w-10 h-10 rounded-2xl bg-purple-50 flex items-center justify-center">
-                      <i className="fa-solid fa-layer-group text-purple-500" />
+                    <div className="w-10 h-10 rounded-2xl bg-orange-50 flex items-center justify-center">
+                      <i className="fa-solid fa-layer-group text-orange-500" />
                     </div>
                   </div>
                   <div className="mt-4 flex items-end gap-2">
@@ -200,7 +200,7 @@ export default function Dashboard() {
                             <div className="w-full max-w-[56px]">
                               <div className="w-full h-[220px] bg-slate-50 rounded-t-2xl border border-slate-100 overflow-hidden flex items-end">
                                 <div
-                                  className="w-full bg-gradient-to-t from-[#8B5CF6] to-[#C084FC] rounded-t-2xl"
+                                  className="w-full bg-gradient-to-t from-[#FB923C] to-[#FDBA74] rounded-t-2xl"
                                   style={{ height: `${Math.max(6, ratio)}%` }}
                                   title={`${m.count}건`}
                                 />
@@ -227,8 +227,8 @@ export default function Dashboard() {
                     <h3 className="text-xl font-black text-[#0F172A]">
                       Top 키워드
                     </h3>
-                    <div className="w-10 h-10 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                      <i className="fa-solid fa-hashtag text-indigo-500" />
+                    <div className="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center">
+                      <i className="fa-solid fa-hashtag text-orange-500" />
                     </div>
                   </div>
 
@@ -252,7 +252,7 @@ export default function Dashboard() {
                               <span
                                 className={
                                   isTop
-                                    ? 'text-[#8B5CF6] font-black'
+                                    ? 'text-[#FB923C] font-black'
                                     : 'text-slate-700 font-bold'
                                 }
                               >
@@ -267,7 +267,7 @@ export default function Dashboard() {
                               <div
                                 className={
                                   isTop
-                                    ? 'h-full bg-gradient-to-r from-[#8B5CF6] to-[#EC4899]'
+                                    ? 'h-full bg-gradient-to-r from-[#FB923C] to-[#FDBA74]'
                                     : 'h-full bg-gradient-to-r from-slate-400 to-slate-500'
                                 }
                                 style={{ width: `${pct}%` }}
