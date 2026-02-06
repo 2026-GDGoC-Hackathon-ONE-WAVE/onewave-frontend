@@ -73,7 +73,7 @@ const Onboarding = () => {
   return (
     <div className="ui-screen bg-[#F8FAFC]">
       <div id="app" className="relative w-full min-h-screen overflow-x-hidden">
-        <main className="relative z-10 w-full max-w-[840px] mx-auto pt-20 pb-32">
+        <main className="relative z-10 w-full max-w-[840px] mx-auto px-6 md:px-20 pt-20 pb-32">
           <section className="mb-16 text-center">
             <h1 className="text-[42px] font-black text-slate-900 leading-tight mb-4 text-left">
               나만의{' '}

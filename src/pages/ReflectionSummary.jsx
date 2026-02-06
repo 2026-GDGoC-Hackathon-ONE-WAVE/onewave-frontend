@@ -23,17 +23,19 @@ export default function ReflectionSummary() {
   return (
     <div className="min-h-screen bg-[#F3F4F6]">
       {/* Header */}
-      <header className="h-[80px] px-6 md:px-20 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={() => navigate('/')}
-        >
-          <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
-            <i className="fa-solid fa-arrows-rotate text-white text-xl" />
+      <header className="h-[80px] bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div className="w-full h-full max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => navigate('/')}
+          >
+            <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
+              <i className="fa-solid fa-arrows-rotate text-white text-xl" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter text-[#222222]">
+              RE:TRACE
+            </span>
           </div>
-          <span className="text-2xl font-black tracking-tighter text-[#222222]">
-            RE:TRACE
-          </span>
         </div>
       </header>
 
