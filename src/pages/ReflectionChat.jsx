@@ -102,13 +102,26 @@ export default function ReflectionChat() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="mx-auto max-w-3xl px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <h1 className="text-base font-bold text-gray-900">회고 대화</h1>
+          <div 
+            className="flex items-center gap-2 cursor-pointer" 
+            onClick={() => {
+              if (window.confirm('회고를 중단하고 홈으로 이동할까요?')) {
+                navigate('/');
+              }
+            }}
+          >
+            <div className="w-8 h-8 bg-[#222222] rounded-lg flex items-center justify-center">
+              <i className="fa-solid fa-arrows-rotate text-white text-sm" />
+            </div>
+            <span className="text-lg font-black tracking-tighter text-[#222222]">RE:TRACE</span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">Session #{sessionId}</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-sm font-bold text-gray-900">회고 대화 진행 중</span>
+            </div>
+            <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded">Session #{sessionId}</span>
           </div>
         </div>
       </header>
