@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import {
   faArrowRight,
   faPlus,
@@ -30,47 +31,34 @@ const Experiences = () => {
   }, [isModalOpen, selectedExp]);
 
   // 1. 기업 리스트 상태 관리 (토스, 당근, 구글 3종 데이터 탑재)
-  const [experienceList, setExperienceList] = useState([
-    {
-      id: 1,
-      company: '토스 (비바리퍼블리카)',
-      date: '2025.02.14',
-      tag: 'Product Designer',
-      status: '최종 탈락',
-      step: '최종 임원 면접',
-      progress: '회고 중',
-      imgUrl:
-        'https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-d7b8662c-63fe-458a-bdfd-57de8cf7580f.jpg',
-      simpleMemo:
-        '면접 분위기가 매우 유연하고 수평적이었음. 사용자 데이터 기반의 의사결정 과정을 깊게 물어보셨음.',
-    },
-    {
-      id: 2,
-      company: '당근 (당근마켓)',
-      date: '2025.01.28',
-      tag: 'UX Researcher',
-      status: '1차 탈락',
-      step: '직무 역량 인터뷰',
-      progress: '회고 전',
-      isStart: true,
-      imgUrl:
-        'https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-3a9fbdb2-4f0b-4eab-81c5-57234478e64e.jpg',
-      simpleMemo: '성능 최적화와 컴포넌트 재사용성에 대한 질문이 핵심이었음.',
-    },
-    {
-      id: 3,
-      company: '구글 코리아(Google)',
-      date: '2025.12.01',
-      tag: 'Software Engineer',
-      status: '최종 합격',
-      step: '기술 인터뷰',
-      progress: '회고 완료',
-      imgUrl:
-        'https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-2eea60f6-d195-4d92-94f6-767fca02f7b1.jpg',
-      simpleMemo:
-        '자료구조와 알고리즘 위주의 질문이 많았음. 특히 대규모 트래픽 처리 경험에 대해 깊게 논의했는데, 논리적으로 설명하여 긍정적인 반응을 얻음.',
-    },
-  ]);
+  const [experienceList, setExperienceList] = useState([]);
+
+  // 2. useEffect에서 데이터 fetch
+  React.useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        // userId는 현재 1로 고정하여 테스트
+        const response = await axios.get(`https://spring-app-343780568798.asia-northeast3.run.app/api/applications?userId=1`);
+        if (response.data.success) {
+          // 백엔드 필드명(companyName 등)을 프론트엔드 props명(company 등)에 맞게 매핑하여 저장
+          const mappedData = response.data.data.applications.map(app => ({
+            id: app.applicationId,
+            company: app.companyName,
+            tag: app.jobTitle,
+            date: app.interviewDate.replace(/-/g, '.'), // YYYY-MM-DD -> YYYY.MM.DD
+            status: app.failedStage,
+            step: app.failedStage, // 상세 단계 정보가 필요하면 추가 매핑
+            progress: app.reflectionStatus === '완료' ? '회고 완료' : '회고 전',
+            imgUrl: 'https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-d7b8662c-63fe-458a-bdfd-57de8cf7580f.jpg' // 기본 이미지
+          }));
+          setExperienceList(mappedData);
+        }
+      } catch (error) {
+        console.error("데이터 로드 실패:", error);
+      }
+    };
+    fetchExperiences();
+  }, []);
 
   // 2. 새 경험 입력 폼 상태 관리
   const [newExp, setNewExp] = useState({
@@ -87,60 +75,104 @@ const Experiences = () => {
   };
 
   // 3. 새로운 경험 추가 함수
-  const handleAddExperience = () => {
+  const handleAddExperience = async () => {
     if (!newExp.company || !newExp.tag) {
       alert('회사명과 직무를 입력해주세요!');
       return;
     }
 
-    const nextId = Date.now();
-    const addedExp = {
-      id: nextId,
-      company: newExp.company,
-      date: newExp.date || '2025.02.07',
-      tag: newExp.tag,
-      status: '서류 탈락',
-      step: newExp.step,
-      progress: '회고 전',
-      isStart: true,
-      imgUrl:
-        'https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-2eea60f6-d195-4d92-94f6-767fca02f7b1.jpg',
+    const requestBody = {
+      userId: 1, // 테스트용
+      companyName: newExp.company,
+      jobTitle: newExp.tag,
+      interviewDate: newExp.date || "2025-02-07",
+      failedStage: newExp.step,
       simpleMemo: newExp.simpleMemo,
+      stages: [{ stageName: newExp.step, stageOrder: 1 }] // 기본 단계 설정
     };
 
-    setExperienceList([addedExp, ...experienceList]);
-    setIsModalOpen(false);
-    setNewExp({
-      company: '',
-      date: '',
-      tag: '',
-      step: '서류 전형',
-      simpleMemo: '',
-    });
+    try {
+      const response = await axios.post(
+        'https://spring-app-343780568798.asia-northeast3.run.app/api/applications',
+        requestBody
+      );
+
+      if (response.data.success) {
+        // 등록 성공 시 페이지 새로고침 없이 리스트에 추가하거나 다시 fetch
+        alert('등록되었습니다!');
+        window.location.reload(); // 가장 간단한 방법
+      }
+    } catch (error) {
+      alert('등록 중 오류가 발생했습니다.');
+    }
   };
 
   // 상세 모달 열기
-  const openDetailModal = (exp) => {
+  const openDetailModal = async (exp) => {
+  try {
+    // 1. 지원 내역 상세 조회 (기본 정보 및 회고 완료 여부 확인)
+    const detailRes = await axios.get(
+      `https://spring-app-343780568798.asia-northeast3.run.app/api/applications/${exp.id}`
+    );
+    
+    if (detailRes.data.success) {
+      let finalData = {
+        ...exp,
+        ...detailRes.data.data,
+        company: detailRes.data.data.companyName,
+        tag: detailRes.data.data.jobTitle
+      };
+
+      // 2. 만약 회고 상태가 '완료'라면, 회고 내용 상세 조회 API를 추가로 호출
+      if (detailRes.data.data.reflectionStatus === '완료') {
+        try {
+          // 실제 서비스에서는 applicationId를 기반으로 reflectionId를 찾거나 매핑해야 합니다.
+          // 여기서는 명세에 따라 특정 reflectionId(예: 1)를 호출한다고 가정합니다.
+          const reflectionRes = await axios.get(
+            `https://spring-app-343780568798.asia-northeast3.run.app/api/reflections/1` 
+          );
+
+          if (reflectionRes.data.success) {
+            const refData = reflectionRes.data.data;
+            // 회고 데이터를 기존 데이터에 병합
+            finalData = {
+              ...finalData,
+              summary: refData.userSummary,      // 회고 요약
+              nextAction: refData.userImprovement, // Action Item
+              keywords: refData.keywords        // 키워드 리스트
+                .filter(k => k.isSelected)      // 선택된 것만 필터링
+                .map(k => k.keyword)
+            };
+          }
+        } catch (error) {
+          console.error("회고 상세 데이터 로드 실패", error);
+        }
+      }
+
+      setSelectedExp(finalData);
+    }
+  } catch (error) {
+    console.error("상세 정보 로드 실패:", error);
     setSelectedExp(exp);
-  };
+  }
+};
 
   // 상세 모달 닫기
   const closeDetailModal = () => {
     setSelectedExp(null);
   };
 
-  // '회고 완료'일 때만 보여줄 추가 데이터 (나중에 백엔드에서 받아올 값들)
-  const reportData = {
-    emotion: {
-      emoji: '😌',
-      label: '평온함',
-      desc: '마음이 차분하고 안정된 상태',
-    },
-    keywords: ['#성장', '#몰입', '#작은성취', '#데이터분석'],
-    summary:
-      '오늘은 복잡했던 로직을 깔끔하게 정리하며 성취감을 느꼈습니다. 조금 느리더라도 방향이 맞다면 괜찮다는 것을 깨달은 하루였습니다.',
-    nextAction: '작업 중간에 15분씩은 꼭 화면에서 눈을 떼고 명상하기',
+  // 더미 회고 데이터 (회고 완료 시에만 사용)
+  const emotionMap = {
+    "기쁨": "😊",
+    "당황": "😳",
+    "슬픔": "😢",
+    "평온": "😌",
+    "만족": "✨"
   };
+
+// JSX에서 사용할 때:
+// {emotionMap[selectedExp.selectedEmotion] || '🤔'}
 
   return (
     <div className="ui-screen bg-[#F8F9FD]">
@@ -209,7 +241,7 @@ const Experiences = () => {
             {experienceList.map((exp) => (
               <ExperienceCard
                 key={exp.id}
-                {...exp}
+                {...exp}  
                 onClick={() => openDetailModal(exp)}
               />
             ))}
@@ -397,15 +429,16 @@ const Experiences = () => {
                         오늘의 감정
                       </label>
                       <div className="flex items-center gap-4 bg-orange-50/50 p-5 rounded-[22px] border border-orange-100/50">
+                        {/* 매핑 객체를 사용하여 이모지 출력 */}
                         <div className="text-4xl">
-                          {reportData.emotion.emoji}
+                          {emotionMap[selectedExp.selectedEmotion] || '😌'}
                         </div>
                         <div>
                           <p className="text-lg font-bold text-gray-900">
-                            {reportData.emotion.label}
+                            {selectedExp.selectedEmotion}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {reportData.emotion.desc}
+                            백엔드에서 온 감정 데이터입니다.
                           </p>
                         </div>
                       </div>
@@ -417,12 +450,13 @@ const Experiences = () => {
                         키워드
                       </label>
                       <div className="flex flex-wrap gap-2">
-                        {reportData.keywords.map((kw) => (
+                        {/* isSelected가 true인 것만 골라서 배지로 출력 */}
+                        {selectedExp.keywords?.filter(k => k.isSelected).map((kw) => (
                           <span
-                            key={kw}
+                            key={kw.keywordId}
                             className="px-4 py-2 bg-white border border-gray-100 rounded-full text-[13px] font-bold text-gray-600 shadow-sm"
                           >
-                            {kw}
+                            #{kw.keyword}
                           </span>
                         ))}
                       </div>
@@ -435,25 +469,22 @@ const Experiences = () => {
                       </label>
                       <div className="relative pl-6 py-2">
                         <p className="text-[17px] font-medium text-gray-800 leading-relaxed">
-                          {reportData.summary}
+                          {selectedExp.userSummary} {/* summary 대신 userSummary */}
                         </p>
                       </div>
                     </section>
 
-                    {/* 5. 다음에 바꿀 한 가지 */}
+                    {/* 5. Action Item (다크 모드 디자인 유지) */}
                     <section>
                       <label className="block text-[13px] font-bold text-orange-600 uppercase tracking-widest mb-3">
                         Action Item
                       </label>
                       <div className="bg-[#111827] p-5 rounded-[22px] flex items-start gap-4 shadow-lg shadow-orange-100">
                         <div className="w-10 h-10 bg-[#D9F99D] rounded-xl flex items-center justify-center flex-shrink-0">
-                          <FontAwesomeIcon
-                            icon={faBolt}
-                            className="text-[#111827]"
-                          />
+                          <FontAwesomeIcon icon={faBolt} className="text-[#111827]" />
                         </div>
                         <p className="text-white text-[15px] font-medium leading-snug">
-                          {reportData.nextAction}
+                          {selectedExp.userImprovement} {/* nextAction 대신 userImprovement */}
                         </p>
                       </div>
                     </section>
