@@ -142,43 +142,44 @@ export default function Dashboard() {
                         <i className="fa-solid fa-chart-line text-pink-500 text-sm" />
                       </div>
                     </div>
+                    <div className="max-h-[320px] overflow-y-auto pr-2">
+                      <div className="space-y-5">
+                        {stageFailureRates.map((s, idx) => {
+                          const colors = [
+                            'bg-gradient-to-r from-rose-500 to-pink-500',
+                            'bg-gradient-to-r from-orange-400 to-amber-500',
+                            'bg-gradient-to-r from-indigo-400 to-violet-500',
+                            'bg-gradient-to-r from-emerald-400 to-teal-500',
+                          ];
+                          const barColor = colors[idx % colors.length];
 
-                    <div className="space-y-5">
-                      {stageFailureRates.map((s, idx) => {
-                        const colors = [
-                          'bg-gradient-to-r from-rose-500 to-pink-500',
-                          'bg-gradient-to-r from-orange-400 to-amber-500',
-                          'bg-gradient-to-r from-indigo-400 to-violet-500',
-                          'bg-gradient-to-r from-emerald-400 to-teal-500',
-                        ];
-                        const barColor = colors[idx % colors.length];
+                          return (
+                            <div key={s.stage} className="space-y-2">
+                              <div className="flex justify-between items-end">
+                                <span className="text-sm font-bold text-slate-700">
+                                  {s.stage}
+                                </span>
+                                <span className="text-lg font-black text-slate-900">
+                                  {s.failureRate}%
+                                </span>
+                              </div>
 
-                        return (
-                          <div key={s.stage} className="space-y-2">
-                            <div className="flex justify-between items-end">
-                              <span className="text-sm font-bold text-slate-700">
-                                {s.stage}
-                              </span>
-                              <span className="text-lg font-black text-slate-900">
-                                {s.failureRate}%
-                              </span>
+                              <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full ${barColor} transition-all duration-1000`}
+                                  style={{ width: `${s.failureRate}%` }}
+                                />
+                              </div>
+
+                              {!!s.description && (
+                                <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-1">
+                                  {s.description}
+                                </p>
+                              )}
                             </div>
-
-                            <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full ${barColor} transition-all duration-1000`}
-                                style={{ width: `${s.failureRate}%` }}
-                              />
-                            </div>
-
-                            {!!s.description && (
-                              <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-1">
-                                {s.description}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
 
                     <p className="mt-6 text-xs text-slate-500 font-medium leading-relaxed">
@@ -234,34 +235,36 @@ export default function Dashboard() {
                       아직 월별 데이터가 없어요.
                     </div>
                   ) : (
-                    <div className="h-[280px] w-full flex items-end gap-4">
-                      {monthly.map((m) => {
-                        const ratio = (m.count / maxMonthlyCount) * 100;
-                        return (
-                          <div
-                            key={m.month}
-                            className="flex-1 min-w-0 flex flex-col items-center gap-3"
-                          >
-                            <div className="w-full max-w-[56px]">
-                              <div className="w-full h-[220px] bg-slate-50 rounded-t-2xl border border-slate-100 overflow-hidden flex items-end">
-                                <div
-                                  className="w-full bg-gradient-to-t from-[#FB923C] to-[#FDBA74] rounded-t-2xl"
-                                  style={{ height: `${Math.max(6, ratio)}%` }}
-                                  title={`${m.count}건`}
-                                />
+                    <div className="h-[280px] w-full overflow-x-auto">
+                      <div className="min-w-[720px] h-full flex items-end gap-4">
+                        {monthly.map((m) => {
+                          const ratio = (m.count / maxMonthlyCount) * 100;
+                          return (
+                            <div
+                              key={m.month}
+                              className="flex-1 min-w-0 flex flex-col items-center gap-3"
+                            >
+                              <div className="w-full max-w-[56px]">
+                                <div className="w-full h-[220px] bg-slate-50 rounded-t-2xl border border-slate-100 overflow-hidden flex items-end">
+                                  <div
+                                    className="w-full bg-gradient-to-t from-[#FB923C] to-[#FDBA74] rounded-t-2xl"
+                                    style={{ height: `${Math.max(6, ratio)}%` }}
+                                    title={`${m.count}건`}
+                                  />
+                                </div>
+                              </div>
+                              <div className="text-center">
+                                <p className="text-xs font-bold text-slate-500">
+                                  {formatMonthLabel(m.month)}
+                                </p>
+                                <p className="text-[11px] text-slate-400 font-semibold">
+                                  {m.count}건
+                                </p>
                               </div>
                             </div>
-                            <div className="text-center">
-                              <p className="text-xs font-bold text-slate-500">
-                                {formatMonthLabel(m.month)}
-                              </p>
-                              <p className="text-[11px] text-slate-400 font-semibold">
-                                {m.count}건
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>

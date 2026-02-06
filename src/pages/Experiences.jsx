@@ -5,10 +5,6 @@ import {
   faArrowRight,
   faPlus,
   faXmark,
-  faHouseChimney,
-  faLayerGroup,
-  faChartPie,
-  faUser,
   faChevronDown,
   faBriefcase,
   faBolt,
@@ -484,7 +480,11 @@ const Experiences = () => {
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate('/reflection', { state: { applicationId: selectedExp.id } })}
+                    onClick={() =>
+                      navigate('/reflection', {
+                        state: { applicationId: selectedExp.id },
+                      })
+                    }
                     className={`px-7 py-3 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl text-white ${
                       selectedExp.progress === '회고 완료'
                         ? 'bg-gradient-to-r from-indigo-500 to-violet-500 shadow-indigo-200/50'
@@ -511,20 +511,6 @@ const Experiences = () => {
             </div>
           </div>
         )}
-
-        {/* --- 하단 네비게이션 --- */}
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-xl border border-gray-100 px-8 py-4 rounded-full shadow-2xl flex items-center gap-10 z-40">
-          <NavBtn icon={faHouseChimney} label="홈" active />
-          <NavBtn icon={faLayerGroup} label="경험함" />
-          <div
-            onClick={() => setIsModalOpen(true)}
-            className="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center text-white shadow-lg -mt-2 hover:scale-110 transition-transform cursor-pointer"
-          >
-            <FontAwesomeIcon icon={faPlus} className="text-xl" />
-          </div>
-          <NavBtn icon={faChartPie} label="통계" />
-          <NavBtn icon={faUser} label="마이" />
-        </div>
       </div>
     </div>
   );
@@ -537,7 +523,7 @@ const ExperienceCard = ({
   status,
   step,
   progress,
-  imgUrl,
+
   isStart,
   onClick,
 }) => {
@@ -548,35 +534,43 @@ const ExperienceCard = ({
     >
       <div>
         <div className="flex justify-between items-start mb-6">
-          <div className="flex items-start gap-3">
-            <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden border border-gray-100 shrink-0">
-              <img src={imgUrl} className="w-8 h-8 object-contain" alt="Logo" />
-            </div>
+          <div className="flex items-start gap-3 min-w-0">
             <div className="min-w-0">
-              <h3 className="text-lg font-black text-gray-900 truncate leading-tight">
+              <h3 className="text-lg font-semibold text-gray-900 truncate">
                 {company}
               </h3>
               <p className="text-xs font-medium text-gray-400 mt-1">{date}</p>
             </div>
           </div>
+
           <div
-            className={`mt-0.5 px-2.5 py-1 rounded-full text-[11px] font-bold border whitespace-nowrap shrink-0 ${status.includes('최종') ? 'bg-red-50 text-red-500 border-red-100' : 'bg-gray-100 text-gray-500 border-gray-200'}`}
+            className={`mt-0.5 px-2.5 py-1 rounded-full text-[11px] font-medium border whitespace-nowrap shrink-0
+        ${
+          status.includes('합격')
+            ? 'bg-green-50 text-green-600 border-green-200'
+            : status.includes('탈락') || status.includes('불합격')
+            ? 'bg-red-50 text-red-500 border-red-100'
+            : 'bg-blue-50 text-blue-600 border-blue-100'
+        }`}
           >
             {status}
           </div>
         </div>
+
         <div className="space-y-4">
-          <span className="inline-block px-3 py-1.5 bg-orange-50 text-orange-600 rounded-lg text-sm font-bold">
+          <span className="inline-block px-3 py-1.5 bg-orange-50 text-orange-600 rounded-lg text-sm font-semibold">
             {tag}
           </span>
+
           <div className="p-4 bg-gray-50 rounded-2xl mt-4">
-            <p className="text-xs font-bold text-gray-400 uppercase mb-2">
+            <p className="text-xs font-medium text-gray-400 uppercase mb-2 tracking-wide">
               탈락 전형
             </p>
-            <p className="text-gray-900 font-bold">{step}</p>
+            <p className="text-gray-900 font-semibold">{step}</p>
           </div>
         </div>
       </div>
+
       <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div
