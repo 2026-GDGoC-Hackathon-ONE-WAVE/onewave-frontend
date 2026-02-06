@@ -82,14 +82,14 @@ const Landing = () => {
           <div className="w-full max-w-[1200px] mx-auto px-6">
             <div className="flex flex-col items-center text-center gap-6 mb-20">
               <h2 className="text-[40px] font-black text-[#222222]">
-                왜 상담이 아니라 회고인가요?
+                왜 회고인가요?
               </h2>
 
               <p className="text-[18px] text-gray-500 max-w-[700px]">
-                단순히 '왜 떨어졌을까'를 분석하는 것은 답을 주지 못합니다.
+                잘 던진 질문은 경험을 자산으로 바꿉니다.
                 <br />
-                스스로에게 던지는 깊이 있는 질문만이 다음 성장을 위한 진짜 답을
-                찾아줍니다.
+                회고를 통해 생각의 흐름을 정리하고, 당신만의 성장 방향을
+                발견해보세요.
               </p>
             </div>
             <div className="grid grid-cols-3 gap-8">
