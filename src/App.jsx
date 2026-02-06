@@ -9,10 +9,12 @@ import Dashboard from './pages/Dashboard.jsx';
 import ReflectionChat from './pages/ReflectionChat.jsx';
 import ReflectionSummary from './pages/ReflectionSummary.jsx';
 import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <div className="App font-['Pretendard']">
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<Landing />} />
