@@ -11,7 +11,6 @@ const Header = () => {
     { label: '홈', path: '/' },
     { label: '내 경험', path: '/experiences' },
     { label: '대시보드', path: '/dashboard' },
-    { label: '서비스 가이드', path: '/service-guide' },
   ];
 
   const handleLogoClick = () => {

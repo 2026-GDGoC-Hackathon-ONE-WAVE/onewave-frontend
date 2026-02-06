@@ -335,7 +335,7 @@ const ExperienceCard = ({
             </div>
           </div>
           <div
-            className={`px-2 py-1 rounded-full text-[12px] font-bold border whitespace-nowrap shrink-0 ${status.includes('최종') ? 'bg-red-50 text-red-500 border-red-100' : 'bg-gray-100 text-gray-500 border-gray-200'}`}
+            className={`px-2 py-1 rounded-full text-[12px] font-bold border whitespace-nowrap shrink-0 ${status.includes('최종') ? 'bg-red-50 text-red-500 border-red-100 mt-1' : 'bg-gray-100 text-gray-500 border-gray-200 mt-1'}`}
           >
             {status}
           </div>

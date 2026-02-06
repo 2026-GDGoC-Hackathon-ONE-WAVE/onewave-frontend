@@ -59,12 +59,6 @@ const Landing = () => {
                 >
                   경험 돌아보기 시작 <FontAwesomeIcon icon={faArrowRight} />
                 </button>
-                <button
-                  onClick={() => navigate('/service-guide')}
-                  className="px-10 py-5 bg-white border-2 border-gray-200 text-[#222222] rounded-2xl text-[20px] font-bold hover:bg-gray-50 transition-colors"
-                >
-                  서비스 가이드
-                </button>
               </div>
             </div>
 

@@ -4,7 +4,6 @@ import Landing from './pages/Landing';
 import Onboarding from './pages/Onboarding';
 import Experiences from './pages/Experiences';
 import ExperienceDetail from './pages/ExperienceDetail';
-import ServiceGuide from './pages/ServiceGuide';
 import Dashboard from './pages/Dashboard.jsx';
 import ReflectionChat from './pages/ReflectionChat.jsx';
 import ReflectionSummary from './pages/ReflectionSummary.jsx';
@@ -18,7 +17,6 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/service-guide" element={<ServiceGuide />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/experiences" element={<Experiences />} />
         <Route path="/experience-detail" element={<ExperienceDetail />} />
