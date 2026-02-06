@@ -1,11 +1,22 @@
 import React from 'react';
-import Landing from './pages/Landing'; // './Landing'에서 './pages/Landing'으로 수정
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Onboarding from './pages/Onboarding';
+import Experiences from './pages/Experiences';
+import ExperienceDetail from './pages/ExperienceDetail';
 
 function App() {
   return (
-    <div className="App">
-      <Landing />
-    </div>
+    <Router>
+      <div className="App font-['Pretendard']">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/experiences" element={<Experiences />} />
+          <Route path="/experience-detail" element={<ExperienceDetail />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

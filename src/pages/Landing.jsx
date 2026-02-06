@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 훅
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faArrowsRotate, 
@@ -15,6 +16,8 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 
 const Landing = () => {
+  const navigate = useNavigate(); // 이동 함수 생성
+
   return (
     <div className="ui-screen">
       <div id="app" className="relative w-full min-h-screen bg-white overflow-x-hidden">
@@ -27,14 +30,12 @@ const Landing = () => {
             </div>
             <span className="text-2xl font-black tracking-tighter text-[#222222]">RE:TRACE</span>
           </div>
-          <div className="flex items-center gap-12 text-[16px] font-semibold text-gray-500">
-            <a href="#" className="text-[#222222]">서비스 소개</a>
-            <a href="#" className="hover:text-[#222222] transition-colors">회고 방법론</a>
-            <a href="#" className="hover:text-[#222222] transition-colors">커뮤니티</a>
-          </div>
           <div className="flex items-center gap-4">
             <button className="px-6 py-2.5 text-[15px] font-bold text-gray-600 hover:text-[#222222]">로그인</button>
-            <button className="px-8 py-3 bg-[#222222] text-white rounded-full text-[15px] font-bold hover:bg-black transition-all shadow-lg shadow-black/10">
+            <button 
+              onClick={() => navigate('/onboarding')}
+              className="px-8 py-3 bg-[#222222] text-white rounded-full text-[15px] font-bold hover:bg-black transition-all shadow-lg shadow-black/10"
+            >
               무료로 시작하기
             </button>
           </div>
@@ -56,7 +57,10 @@ const Landing = () => {
               <p className="text-[18px] text-gray-400">단순한 피드백이 아닌, 나만의 정답을 찾아가는 질문형 회고 서비스 RE:TRACE</p>
             </div>
             <div className="flex items-center gap-4 mt-4">
-              <button className="px-10 py-5 bg-[#222222] text-white rounded-2xl text-[20px] font-bold flex items-center gap-3 hover:scale-[1.02] transition-transform shadow-xl shadow-black/20">
+              <button 
+                onClick={() => navigate('/onboarding')} // 클릭 시 온보딩 페이지로 이동
+                className="px-10 py-5 bg-[#222222] text-white rounded-2xl text-[20px] font-bold flex items-center gap-3 hover:scale-[1.02] transition-transform shadow-xl shadow-black/20"
+              >
                 경험 돌아보기 시작 <FontAwesomeIcon icon={faArrowRight} />
               </button>
               <button className="px-10 py-5 bg-white border-2 border-gray-200 text-[#222222] rounded-2xl text-[20px] font-bold hover:bg-gray-50 transition-colors">
@@ -68,16 +72,6 @@ const Landing = () => {
           <div className="w-1/2 relative">
             <div className="relative z-10 w-full h-[600px] bg-white rounded-[40px] shadow-2xl overflow-hidden border border-gray-100">
               <img className="w-full h-full object-cover" src="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-26eb48e4-a250-4cd5-841b-f1343da83af9.jpg" alt="Reflection" />
-            </div>
-            {/* 오늘의 질문 카드 (애니메이션) */}
-            <div className="absolute top-20 -left-12 z-20 bg-white p-6 rounded-3xl shadow-xl border border-gray-50 flex flex-col gap-3 animate-bounce">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                  <FontAwesomeIcon icon={faQuoteLeft} className="text-purple-600 text-xs" />
-                </div>
-                <span className="font-bold text-[#222222]">오늘의 질문</span>
-              </div>
-              <p className="text-[16px] text-gray-600 font-medium italic">"그 당시 당신이 내린 결정의<br/>가장 큰 근거는 무엇이었나요?"</p>
             </div>
           </div>
         </main>
@@ -124,12 +118,12 @@ const Landing = () => {
             </div>
             <div className="flex gap-20">
               <div className="flex flex-col gap-4">
-                <span className="font-bold">Service</span>
-                <a href="#" className="text-gray-400 hover:text-white text-[14px]">회고 시작하기</a>
+                <span className="font-bold text-white text-[16px]">Service</span>
+                <button onClick={() => navigate('/onboarding')} className="text-left text-gray-400 hover:text-white text-[14px]">회고 시작하기</button>
                 <a href="#" className="text-gray-400 hover:text-white text-[14px]">이용 가이드</a>
               </div>
               <div className="flex flex-col gap-4">
-                <span className="font-bold">Social</span>
+                <span className="font-bold text-white text-[16px]">Social</span>
                 <div className="flex gap-4">
                   <FontAwesomeIcon icon={faInstagram} className="text-xl text-gray-400 hover:text-white cursor-pointer" />
                   <FontAwesomeIcon icon={faLinkedin} className="text-xl text-gray-400 hover:text-white cursor-pointer" />
