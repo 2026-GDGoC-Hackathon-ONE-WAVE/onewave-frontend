@@ -1,8 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faArrowsRotate, // RE:TRACE 통일 로고
+  faArrowsRotate, 
   faBell, 
   faChevronRight, 
   faBriefcase, 
@@ -16,8 +16,23 @@ import {
 
 const ExperienceDetail = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 로고 클릭 시 사용자 상태(온보딩 여부)에 따라 이동하는 핸들러
+  /**
+   * 1. Experiences 페이지에서 넘어온 데이터를 안전하게 받아옵니다.
+   * navigate('/experience-detail', { state: { ... } }) 로 보낸 정보가 location.state에 담깁니다.
+   */
+  const expData = location.state;
+
+  // 데이터가 없을 경우를 대비한 기본값 설정 (새로고침 시 등)
+  const displayData = expData || {
+    company: "정보 없음",
+    tag: "직무 미지정",
+    date: "2025-00-00",
+    step: "미지정 전형",
+    simpleMemo: "작성된 메모가 없습니다."
+  };
+
   const handleLogoClick = () => {
     const hasOnboarded = localStorage.getItem('hasOnboarded');
     if (hasOnboarded) {
@@ -31,7 +46,7 @@ const ExperienceDetail = () => {
     <div className="ui-screen bg-[#F9FAFB]">
       <div id="app" className="relative w-full min-h-screen font-sans text-[#1A1A1A]">
         
-        {/* --- Header (RE:TRACE 디자인 적용) --- */}
+        {/* --- Header --- */}
         <header className="sticky top-0 z-50 w-full h-[80px] bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-[120px]">
           <div className="flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
             <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
@@ -58,7 +73,7 @@ const ExperienceDetail = () => {
           <div className="w-full max-w-[800px] mb-8 flex items-center gap-2 text-sm font-medium text-gray-400">
             <span className="cursor-pointer hover:text-gray-600" onClick={() => navigate('/experiences')}>나의 경험</span>
             <FontAwesomeIcon icon={faChevronRight} className="text-[10px]" />
-            <span className="text-gray-900">상세 보기</span>
+            <span className="text-gray-900 font-bold">상세 보기</span>
           </div>
 
           {/* Experience Detail Card */}
@@ -72,25 +87,26 @@ const ExperienceDetail = () => {
                   채용 프로세스
                 </div>
                 <h1 className="text-5xl font-black text-[#1A1A1A] tracking-tight leading-tight">
-                  토스(Toss)<br/>
-                  <span className="text-gray-400 font-bold">Product Designer</span>
+                  {displayData.company}<br/>
+                  <span className="text-gray-400 font-bold">{displayData.tag}</span>
                 </h1>
               </div>
               <div className="text-right">
-                <span className="text-sm font-medium text-gray-400 mb-1 block">2025.03</span>
-                <div className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-bold text-lg">최종 면접</div>
+                <span className="text-sm font-medium text-gray-400 mb-1 block">{displayData.date}</span>
+                <div className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-bold text-lg">
+                  {displayData.step}
+                </div>
               </div>
             </div>
 
             <div className="h-px w-full bg-gray-100 mb-12"></div>
 
-            {/* Details Section */}
-            <div className="grid grid-cols-1 gap-10 relative z-10">
+            <div className="grid grid-cols-1 gap-10 relative z-10 text-left">
               <section>
                 <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">간단 메모</label>
                 <div className="p-8 bg-gray-50 rounded-[32px] border border-gray-100">
                   <p className="text-xl text-gray-700 leading-relaxed font-medium">
-                    "면접 분위기가 매우 유연하고 수평적이었음. 사용자 데이터 기반의 의사결정 과정을 깊게 물어보셨는데, 최근 진행한 프로젝트의 A/B 테스트 결과를 중심으로 답변함. 전반적으로 팀 문화와 내가 지향하는 바가 잘 맞는다는 느낌을 받음."
+                    "{displayData.simpleMemo || "작성된 메모가 없습니다."}"
                   </p>
                 </div>
               </section>
@@ -104,16 +120,16 @@ const ExperienceDetail = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <label className="block text-sm font-bold text-gray-400 mb-1">회고 상태</label>
+                  <label className="block text-sm font-bold text-gray-400 mb-1 text-left">회고 상태</label>
                   <div className="flex items-center gap-2 text-[#D946EF] font-bold">
                     <FontAwesomeIcon icon={faCircleCheck} />
-                    <span>회고 완료</span>
+                    <span>회고 전</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* --- CTA Button (ReflectionChat으로 이동) --- */}
+            {/* --- CTA Button --- */}
             <div className="mt-16 flex justify-center">
               <button 
                 onClick={() => navigate('/reflection-chat')}
@@ -139,12 +155,11 @@ const ExperienceDetail = () => {
           </div>
         </main>
 
-        {/* Floating Actions */}
         <div className="fixed bottom-10 right-10 flex flex-col gap-4">
           <button className="w-16 h-16 bg-white shadow-2xl rounded-full flex items-center justify-center text-gray-900 text-xl hover:bg-gray-50 transition-all border border-gray-100">
             <FontAwesomeIcon icon={faShareNodes} />
           </button>
-          <button className="w-16 h-16 bg-gray-900 shadow-2xl rounded-full flex items-center justify-center text-white text-xl hover:scale-110 transition-all">
+          <button onClick={() => navigate('/experiences')} className="w-16 h-16 bg-gray-900 shadow-2xl rounded-full flex items-center justify-center text-white text-xl hover:scale-110 transition-all">
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>

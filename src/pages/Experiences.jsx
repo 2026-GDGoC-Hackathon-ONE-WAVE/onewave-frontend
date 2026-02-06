@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faBoltLightning, 
+  faArrowsRotate, 
   faArrowRight, 
   faPlus, 
   faXmark, 
@@ -15,7 +15,84 @@ import {
 
 const Experiences = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 1. 기업 리스트 상태 관리 (초기 예시 데이터)
+  const [experienceList, setExperienceList] = useState([
+    {
+      id: 1,
+      company: "토스 (비바리퍼블리카)",
+      date: "2025.02.14",
+      tag: "Product Designer",
+      status: "최종 탈락",
+      step: "최종 임원 면접",
+      progress: "회고 중",
+      imgUrl: "https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-d7b8662c-63fe-458a-bdfd-57de8cf7580f.jpg"
+    },
+    {
+      id: 2,
+      company: "당근 (당근마켓)",
+      date: "2025.01.28",
+      tag: "UX Researcher",
+      status: "1차 탈락",
+      step: "직무 역량 인터뷰",
+      progress: "회고 전",
+      imgUrl: "https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-3a9fbdb2-4f0b-4eab-81c5-57234478e64e.jpg",
+      isStart: true
+    }
+  ]);
+
+  // 2. 새 경험 입력 폼 상태 관리
+  const [newExp, setNewExp] = useState({
+    company: '',
+    date: '',
+    tag: '',
+    step: '서류 전형',
+    simpleMemo: ''
+  });
+
+  // 입력값 변경 핸들러
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewExp(prev => ({ ...prev, [name]: value }));
+  };
+
+  // 3. 새로운 경험 추가 함수
+  const handleAddExperience = () => {
+    if (!newExp.company || !newExp.tag) {
+      alert("회사명과 직무를 입력해주세요!");
+      return;
+    }
+
+    const nextId = Date.now(); // 임시 고유 ID
+    const addedExp = {
+      id: nextId,
+      company: newExp.company,
+      date: newExp.date || "2025.02.07", // 날짜 미입력 시 오늘 날짜 예시
+      tag: newExp.tag,
+      status: "서류 탈락", 
+      step: newExp.step,
+      progress: "회고 전",
+      isStart: true,
+      imgUrl: "https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-2eea60f6-d195-4d92-94f6-767fca02f7b1.jpg" // 기본 이미지
+    };
+
+    // 리스트 맨 앞에 추가
+    setExperienceList([addedExp, ...experienceList]);
+    setIsModalOpen(false);
+    
+    // 입력 폼 초기화
+    setNewExp({ company: '', date: '', tag: '', step: '서류 전형', simpleMemo: '' });
+  };
+
+  const handleLogoClick = () => {
+    const hasOnboarded = localStorage.getItem('hasOnboarded');
+    if (hasOnboarded) {
+      navigate('/experiences');
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <div className="ui-screen bg-[#F8F9FD]">
@@ -23,19 +100,19 @@ const Experiences = () => {
         
         {/* --- Header --- */}
         <header className="sticky top-0 z-50 w-full h-[80px] bg-white/80 backdrop-blur-md border-b border-gray-100 px-10 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 bg-gradient-to-tr from-[#6366F1] to-[#A855F7] rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
-              <FontAwesomeIcon icon={faBoltLightning} className="text-white text-xl" />
+          <div className="flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
+            <div className="w-10 h-10 bg-[#222222] rounded-xl flex items-center justify-center">
+              <FontAwesomeIcon icon={faArrowsRotate} className="text-white text-xl" />
             </div>
-            <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 tracking-tight">FAIL-LOG</span>
+            <span className="text-2xl font-black tracking-tighter text-[#222222]">RE:TRACE</span>
           </div>
           <nav className="flex items-center gap-8 font-bold text-gray-500">
             <button className="text-gray-900">내 경험</button>
             <button className="hover:text-indigo-600 transition-colors">인사이트</button>
             <button className="hover:text-indigo-600 transition-colors">커뮤니티</button>
             <div className="flex items-center gap-3 ml-4">
-              <img src="https://vinsign.app/resources/avatars/avatar-5.png" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="User Profile" />
-              <span className="text-gray-700">김지우 님</span>
+              <img src="https://vinsign.app/resources/avatars/avatar-5.png" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="User" />
+              <span className="text-gray-700 font-semibold text-sm">김지우 님</span>
             </div>
           </nav>
         </header>
@@ -46,7 +123,7 @@ const Experiences = () => {
             <div className="relative z-10">
               <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
                 아직 정리되지 않은<br />
-                <span className="text-[#DFFF00]">3개의 경험</span>이 기다리고 있어요.
+                <span className="text-[#DFFF00]">{experienceList.length + 1}개의 경험</span>이 기다리고 있어요.
               </h1>
               <button className="group flex items-center gap-3 bg-[#DFFF00] hover:bg-[#EFFF50] text-[#1E1B4B] px-8 py-4 rounded-full font-black text-lg transition-all transform hover:scale-105 active:scale-95 shadow-xl">
                 최근 경험 돌아보기
@@ -55,13 +132,13 @@ const Experiences = () => {
             </div>
             <div className="relative w-[300px] h-full flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-t from-indigo-500/20 to-transparent blur-3xl"></div>
-              <img className="relative z-10 w-[280px] h-[280px] object-contain drop-shadow-2xl" src="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-ad8159ae-7156-4170-a7f7-c11960fee2e9.jpg" alt="Character Illustration" />
+              <img className="relative z-10 w-[280px] h-[280px] object-contain drop-shadow-2xl" src="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-ad8159ae-7156-4170-a7f7-c11960fee2e9.jpg" alt="Illustration" />
             </div>
           </section>
 
           {/* --- Experience Grid --- */}
           <div className="grid grid-cols-3 gap-8">
-            {/* 새로운 경험 추가하기 카드 */}
+            {/* 새로운 경험 추가 버튼 카드 */}
             <div 
               onClick={() => setIsModalOpen(true)}
               className="group relative bg-white border-2 border-dashed border-gray-200 rounded-[28px] p-8 flex flex-col items-center justify-center gap-6 hover:border-indigo-400 hover:bg-indigo-50/30 transition-all cursor-pointer min-h-[420px]"
@@ -75,28 +152,10 @@ const Experiences = () => {
               </div>
             </div>
 
-            {/* 기업 카드 예시 1 */}
-            <ExperienceCard 
-              company="토스 (비바리퍼블리카)" 
-              date="2025.02.14" 
-              tag="Product Designer" 
-              status="최종 탈락" 
-              step="최종 임원 면접" 
-              progress="회고 중"
-              imgUrl="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-d7b8662c-63fe-458a-bdfd-57de8cf7580f.jpg"
-            />
-
-            {/* 기업 카드 예시 2 */}
-            <ExperienceCard 
-              company="당근 (당근마켓)" 
-              date="2025.01.28" 
-              tag="UX Researcher" 
-              status="1차 탈락" 
-              step="직무 역량 인터뷰" 
-              progress="회고 전"
-              imgUrl="https://gmcnqdpighpxhzpesqwf.supabase.co/storage/v1/object/public/generated-images/image-3a9fbdb2-4f0b-4eab-81c5-57234478e64e.jpg"
-              isStart
-            />
+            {/* 동적으로 리스트 렌더링 */}
+            {experienceList.map((exp) => (
+              <ExperienceCard key={exp.id} {...exp} />
+            ))}
           </div>
         </main>
 
@@ -111,10 +170,10 @@ const Experiences = () => {
           <NavBtn icon={faUser} label="마이" />
         </div>
 
-        {/* --- 새 경험 추가 모달 (Overlay) --- */}
+        {/* --- 새 경험 추가 모달 --- */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-            <div className="bg-white w-full max-w-[500px] rounded-[32px] p-10 shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="bg-white w-full max-w-[550px] rounded-[32px] p-10 shadow-2xl animate-in fade-in zoom-in duration-200 overflow-y-auto max-h-[90vh]">
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-black text-gray-900">새 경험 추가</h2>
                 <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 transition-colors">
@@ -123,41 +182,52 @@ const Experiences = () => {
               </div>
 
               <div className="space-y-6">
-                {/* 회사명 입력 */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-2">회사/조직명</label>
                   <input 
+                    name="company"
+                    value={newExp.company}
+                    onChange={handleChange}
                     type="text" 
-                    placeholder="예: 구글 코리아" 
+                    placeholder="예: 토스" 
                     className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" 
                   />
                 </div>
 
-                {/* 날짜 및 직무 입력 */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-bold text-gray-400 mb-2">면접 본 날짜</label>
                     <input 
+                      name="date"
+                      value={newExp.date}
+                      onChange={handleChange}
                       type="text" 
-                      placeholder="2025.02.24" 
+                      placeholder="2025-02-01" 
                       className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" 
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-400 mb-2">지원 직무</label>
                     <input 
+                      name="tag"
+                      value={newExp.tag}
+                      onChange={handleChange}
                       type="text" 
-                      placeholder="예: FE 개발자" 
+                      placeholder="예: Product Designer" 
                       className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" 
                     />
                   </div>
                 </div>
 
-                {/* 전형 선택 */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-2">탈락한 전형</label>
                   <div className="relative">
-                    <select className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium appearance-none cursor-pointer">
+                    <select 
+                      name="step"
+                      value={newExp.step}
+                      onChange={handleChange}
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium appearance-none cursor-pointer"
+                    >
                       <option>서류 전형</option>
                       <option>과제/코딩 테스트</option>
                       <option>1차 면접</option>
@@ -170,17 +240,24 @@ const Experiences = () => {
                   </div>
                 </div>
 
-                {/* 제출 버튼 */}
+                <div>
+                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wider">간단 메모</label>
+                  <textarea 
+                    name="simpleMemo"
+                    value={newExp.simpleMemo}
+                    onChange={handleChange}
+                    rows="3"
+                    placeholder="면접 당시 느꼈던 점이나 특징을 간단히 적어주세요."
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium resize-none"
+                  ></textarea>
+                </div>
+
                 <button 
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    navigate('/experience-detail', { state: { company: '새로운 경험' } });
-                  }}
+                  onClick={handleAddExperience}
                   className="w-full py-5 bg-gray-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all mt-4 shadow-xl active:scale-[0.98]"
                 >
                   경험 저장하고 시작하기
                 </button>
-                <p className="text-center text-xs font-bold text-gray-400">추가 시 회고 상태는 '회고 전'으로 설정됩니다.</p>
               </div>
             </div>
           </div>
@@ -202,22 +279,22 @@ const ExperienceCard = ({ company, date, tag, status, step, progress, imgUrl, is
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden border border-gray-100">
-              <img src={imgUrl} className="w-10 h-10 object-contain" alt="Company Logo" />
+              <img src={imgUrl} className="w-10 h-10 object-contain" alt="Logo" />
             </div>
             <div>
               <h3 className="text-xl font-black text-gray-900">{company}</h3>
               <p className="text-sm font-medium text-gray-400">{date}</p>
             </div>
           </div>
-          <div className={`px-3 py-1 rounded-full text-xs font-bold border ${status === '최종 탈락' ? 'bg-red-50 text-red-500 border-red-100' : 'bg-gray-100 text-gray-500 border-gray-200'}`}>
+          <div className={`px-3 py-1 rounded-full text-xs font-bold border ${status.includes('최종') ? 'bg-red-50 text-red-500 border-red-100' : 'bg-gray-100 text-gray-500 border-gray-200'}`}>
             {status}
           </div>
         </div>
         <div className="space-y-4">
           <span className="inline-block px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-bold">{tag}</span>
-          <div className="p-4 bg-gray-50 rounded-2xl">
-            <p className="text-xs font-bold text-gray-400 uppercase mb-2">탈락 전형</p>
-            <p className="text-gray-900 font-bold">{step}</p>
+          <div className="p-4 bg-gray-50 rounded-2xl mt-4">
+            <p className="text-xs font-bold text-gray-400 uppercase mb-2 text-left">탈락 전형</p>
+            <p className="text-gray-900 font-bold text-left">{step}</p>
           </div>
         </div>
       </div>
@@ -226,7 +303,7 @@ const ExperienceCard = ({ company, date, tag, status, step, progress, imgUrl, is
           <div className={`w-2.5 h-2.5 rounded-full ${progress === '회고 중' ? 'bg-orange-400 animate-pulse' : 'bg-gray-300'}`}></div>
           <span className="text-sm font-bold text-gray-700">{progress}</span>
         </div>
-        <button className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${isStart ? 'bg-indigo-600 text-white shadow-lg hover:bg-indigo-700' : 'bg-gray-900 text-white hover:bg-gray-800'}`}>
+        <button className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-colors ${isStart ? 'bg-indigo-600 text-white shadow-lg' : 'bg-gray-900 text-white'}`}>
           {isStart ? '회고 시작' : '이어하기'}
         </button>
       </div>
